@@ -59,8 +59,12 @@ export const site = {
   ] satisfies Artwork[],
 
   scene: {
-    /** How many screen-heights of scroll the whole walk takes. */
+    /** How many screen-heights of scroll the room walk takes (window, turn, threshold). */
     scrollScreens: 8,
+    /** Metres walked down the hallway per screen-height of scroll. */
+    hallMetersPerScreen: 4,
+    /** Path to your own hands glTF under /public (e.g. "/models/hands.glb"); null uses the placeholder. */
+    handsModel: null as string | null,
   },
 } as const;
 

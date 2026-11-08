@@ -18,7 +18,7 @@ export const C = {
   frame: "#ece4d3",
   ink: "#1a1714",
   sky: "#dfe8e6",
-  hallPlaster: "#8e969a",
+  hallPlaster: "#6d767a",
   hallFloorA: "#2a2e31",
   hallFloorB: "#b9b3a4",
   hallFog: "#1b2024",
