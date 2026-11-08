@@ -41,29 +41,29 @@ export const rig = {
 
 /** Room layout in metres. Scene components and the camera share these. */
 export const ROOM = {
-  width: 6,
-  depth: 10,
+  width: 6.4,
+  depth: 8,
   height: 3.2,
-  backZ: -5,
-  frontZ: 5,
+  backZ: -4,
+  frontZ: 4,
   eye: 1.6,
-  startZ: 4.2,
+  startZ: 3.3,
   /** Where the visitor stops in front of the window. */
-  windowZ: -3.3,
+  windowZ: -2.4,
   /** Shelf and record player sit this far from the back wall. */
-  furnitureZ: -3.7,
+  furnitureZ: -2.7,
   /** Hover-to-choose works once the visitor is past this Z. */
-  approachZ: 2,
-  window: { width: 2.6, height: 1.8, sill: 0.9 },
+  approachZ: 1.4,
+  window: { width: 3, height: 2, sill: 0.8 },
   doorway: { width: 2.2, height: 2.6 },
   stride: 0.7,
 } as const;
 
 export const FOCUS_POSES: Record<Target, Pose> = {
-  // Stand in the middle of the room, turned to face the shelf: every label in view.
-  shelf: { x: -0.45, y: 1.3, z: ROOM.furnitureZ, yaw: Math.PI / 2, pitch: -0.12 },
-  // Stand over the record player, looking down at the platter and sleeve.
-  player: { x: 1.55, y: 1.45, z: ROOM.furnitureZ, yaw: -Math.PI / 2, pitch: -0.42 },
+  // Two metres back from the shelf, turned to face it: every label in view.
+  shelf: { x: -0.45, y: 1.2, z: ROOM.furnitureZ, yaw: Math.PI / 2, pitch: -0.16 },
+  // Standing over the record player, looking down at the platter and sleeve.
+  player: { x: 1.8, y: 1.45, z: ROOM.furnitureZ, yaw: -Math.PI / 2, pitch: -0.45 },
 };
 
 /* ---------- ui store: low-frequency state the DOM renders ---------- */

@@ -19,6 +19,8 @@ export const C = {
   ink: "#1a1714",
   sky: "#dfe8e6",
   hallPlaster: "#6d767a",
+  /** Cream relief paper; the cold grade and the lamps make it blue-grey. */
+  hallPaper: "#8e897d",
   hallFloorA: "#2a2e31",
   hallFloorB: "#b9b3a4",
   hallFog: "#1b2024",

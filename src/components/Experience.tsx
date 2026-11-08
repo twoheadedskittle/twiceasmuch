@@ -9,6 +9,7 @@ import { CameraRig } from "@/scene/CameraRig";
 import { focusOn, release } from "@/scene/focus";
 import { Hallway } from "@/scene/Hallway";
 import { Hands } from "@/scene/Hands";
+import { Ink } from "@/scene/Ink";
 import { nav } from "@/scene/nav";
 import { Room } from "@/scene/Room";
 import { rig, ROOM, uiStore } from "@/scene/rig";
@@ -119,6 +120,7 @@ export default function Experience() {
             <UiSync />
             <Room />
             <Hallway />
+            <Ink />
           </Canvas>
         )}
       </div>

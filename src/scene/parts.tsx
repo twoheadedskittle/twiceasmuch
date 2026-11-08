@@ -1,30 +1,38 @@
 "use client";
 
-import { Outlines } from "@react-three/drei";
-import type { ReactNode } from "react";
-import { C } from "./palette";
+import { useMemo, type ReactNode } from "react";
+import type { Texture } from "three";
 import { toonRamp } from "./toon";
-
-/** Ink line weight in metres for outlined objects. */
-export const INK = 0.012;
 
 type BoxProps = {
   size: [number, number, number];
   position?: [number, number, number];
   rotation?: [number, number, number];
   color: string;
-  /** Draw a soft ink outline around it (inverted hull). */
-  inked?: boolean;
+  /** A painted texture; tiled at `tile` metres per repeat across the box's two largest sides. */
+  map?: Texture;
+  tile?: number;
   children?: ReactNode;
 };
 
-/** The scene's basic block: cel-shaded, optionally inked. */
-export function Box({ size, position, rotation, color, inked, children }: BoxProps) {
+/**
+ * The scene's basic block: cel-shaded with an optional painted texture.
+ * Ink lines and hatching come from the screen pass (Ink.tsx), not per mesh.
+ */
+export function Box({ size, position, rotation, color, map, tile = 1, children }: BoxProps) {
+  const tiled = useMemo(() => {
+    if (!map) return undefined;
+    const t = map.clone();
+    const dims = [...size].sort((a, b) => b - a);
+    t.repeat.set(dims[0] / tile, dims[1] / tile);
+    t.needsUpdate = true;
+    return t;
+  }, [map, size, tile]);
+
   return (
     <mesh position={position} rotation={rotation}>
       <boxGeometry args={size} />
-      <meshToonMaterial color={color} gradientMap={toonRamp()} />
-      {inked && <Outlines thickness={INK} color={C.ink} />}
+      <meshToonMaterial color={color} map={tiled} gradientMap={toonRamp()} />
       {children}
     </mesh>
   );

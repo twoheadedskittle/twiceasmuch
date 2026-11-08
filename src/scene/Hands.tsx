@@ -1,6 +1,6 @@
 "use client";
 
-import { Outlines, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
 import { MathUtils, type Group, type PerspectiveCamera } from "three";
@@ -25,7 +25,6 @@ function Capsule({ r, len, position, rotation, color }: { r: number; len: number
     <mesh position={position} rotation={rotation}>
       <capsuleGeometry args={[r, len, 4, 10]} />
       <meshToonMaterial color={color} gradientMap={toonRamp()} />
-      <Outlines thickness={0.0035} color={C.ink} />
     </mesh>
   );
 }
@@ -42,7 +41,6 @@ function Hand({ side }: { side: -1 | 1 }) {
       <mesh position={[0, 0, -0.03]} rotation={[0.08, 0, -0.12]} scale={[0.95, 0.4, 1.05]}>
         <sphereGeometry args={[0.055, 18, 12]} />
         <meshToonMaterial color={SKIN} gradientMap={toonRamp()} />
-        <Outlines thickness={0.0035} color={C.ink} />
       </mesh>
       {/* Fingers forward and drooping, curling more toward the little finger */}
       {fingers.map((x, i) => (

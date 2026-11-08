@@ -3,6 +3,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import {
+  AdditiveBlending,
   Color,
   FogExp2,
   MathUtils,
@@ -13,6 +14,7 @@ import {
   type Mesh,
   type MeshBasicMaterial,
   type PointLight,
+  type SpriteMaterial,
   type Texture,
 } from "three";
 import { site } from "@/config/site";
@@ -20,7 +22,10 @@ import { C } from "./palette";
 import { Box } from "./parts";
 import { seeded } from "./random";
 import { rig, ROOM } from "./rig";
-import { checker, placeholderArt, relief } from "./textures";
+import { checker, glow, placeholderArt, relief } from "./textures";
+
+let glowCache: Texture | null = null;
+const glowTex = () => (glowCache ??= glow());
 import { toonRamp } from "./toon";
 
 /**
@@ -111,13 +116,15 @@ type SlotProps = { slot: number; floorMat: MeshToonMaterial };
 function Segment({ slot, floorMat }: SlotProps) {
   const group = useRef<Group>(null);
   const k = useRef(-1);
-  const wallL = useMemo(() => new MeshToonMaterial({ color: C.hallPlaster, gradientMap: toonRamp(), bumpScale: 5 }), []);
-  const wallR = useMemo(() => new MeshToonMaterial({ color: C.hallPlaster, gradientMap: toonRamp(), bumpScale: 5 }), []);
+  const wallL = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRamp(), bumpScale: 7 }), []);
+  const wallR = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRamp(), bumpScale: 7 }), []);
   const art = useRef<MeshBasicMaterial>(null);
   const frame = useRef<Group>(null);
   const door = useRef<Group>(null);
   const shadeA = useRef<Mesh>(null);
   const shadeB = useRef<Mesh>(null);
+  const halo = useRef<SpriteMaterial>(null);
+  const pool = useRef<MeshBasicMaterial>(null);
 
   useEffect(() => () => {
     wallL.dispose();
@@ -164,8 +171,10 @@ function Segment({ slot, floorMat }: SlotProps) {
     // Lamp glow follows the shared flicker value for this segment.
     const level = flicker(kk, clock.elapsedTime);
     for (const s of [shadeA.current, shadeB.current]) {
-      if (s) (s.material as MeshBasicMaterial).color.setScalar(0.35 + level * 0.65);
+      if (s) (s.material as MeshBasicMaterial).color.setScalar(0.25 + level * 0.75);
     }
+    if (halo.current) halo.current.opacity = 0.4 * level;
+    if (pool.current) pool.current.opacity = 0.35 * level;
   });
 
   return (
@@ -193,21 +202,35 @@ function Segment({ slot, floorMat }: SlotProps) {
         </group>
       ))}
 
-      {/* Two-shade ceiling lamp, as in the linocut corridor */}
+      {/* Two-shade ceiling lamp, as in the linocut corridor: dark shades, bright bulbs */}
       <group position={[0, HH, L / 2]}>
         <Box size={[0.02, 0.22, 0.02]} position={[0, -0.11, 0]} color={C.ink} />
         <Box size={[0.5, 0.02, 0.02]} position={[0, -0.22, 0]} color={C.ink} />
         {[-1, 1].map((s) => (
-          <mesh key={s} ref={s < 0 ? shadeA : shadeB} position={[s * 0.25, -0.33, 0]}>
-            <coneGeometry args={[0.11, 0.16, 20, 1, true]} />
-            <meshBasicMaterial color="#e8ecef" side={2} toneMapped={false} />
-          </mesh>
+          <group key={s} position={[s * 0.25, -0.33, 0]}>
+            <mesh>
+              <coneGeometry args={[0.11, 0.16, 20, 1, true]} />
+              <meshToonMaterial color="#2a3034" gradientMap={toonRamp()} side={2} />
+            </mesh>
+            <mesh ref={s < 0 ? shadeA : shadeB} position={[0, -0.06, 0]}>
+              <sphereGeometry args={[0.035, 10, 8]} />
+              <meshBasicMaterial color="#f2f5f2" toneMapped={false} />
+            </mesh>
+          </group>
         ))}
+        <sprite position={[0, -0.42, 0]} scale={[1.3, 1.3, 1]}>
+          <spriteMaterial ref={halo} map={glowTex()} color="#cfdbe4" transparent opacity={0.4} blending={AdditiveBlending} depthWrite={false} />
+        </sprite>
       </group>
+      {/* The pool of light under the lamp; between pools the floor falls dark */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, L / 2]}>
+        <planeGeometry args={[2.6, 2.6]} />
+        <meshBasicMaterial ref={pool} map={glowTex()} color="#bcc8d0" transparent opacity={0.35} blending={AdditiveBlending} depthWrite={false} />
+      </mesh>
 
       {/* Hanging frame with artwork */}
       <group ref={frame} position={[-HW, 1.55, L / 2]}>
-        <Box size={[0.72, 0.9, 0.04]} color={C.oakDark} inked />
+        <Box size={[0.72, 0.9, 0.04]} color={C.oakDark} />
         <mesh position={[0, 0, 0.022]}>
           <planeGeometry args={[0.6, 0.76]} />
           <meshBasicMaterial ref={art} toneMapped={false} />
@@ -219,7 +242,7 @@ function Segment({ slot, floorMat }: SlotProps) {
 
       {/* A door that never opens: frosted glass, no name on it */}
       <group ref={door} position={[HW, 0, L * 0.3]} visible={false}>
-        <Box size={[0.9, 2.15, 0.06]} position={[0, 1.075, 0]} color="#2b3134" inked />
+        <Box size={[0.9, 2.15, 0.06]} position={[0, 1.075, 0]} color="#2b3134" />
         <mesh position={[0, 1.55, 0.035]}>
           <planeGeometry args={[0.6, 0.6]} />
           <meshBasicMaterial color="#b8bdb6" transparent opacity={0.7} />
@@ -270,7 +293,7 @@ function LampLights() {
 function Atmosphere() {
   const scene = useThree((s) => s.scene);
   const fog = useMemo(() => new FogExp2(new Color(C.hallFog), 0), []);
-  const warm = useMemo(() => new Color("#1d2a24"), []);
+  const warm = useMemo(() => new Color("#2b2219"), []);
   const cold = useMemo(() => new Color(C.hallFog), []);
   const bg = useMemo(() => new Color("#1d2a24"), []);
 
@@ -286,8 +309,9 @@ function Atmosphere() {
   useFrame(({ camera }) => {
     // 0 in the room, 1 three metres past the threshold.
     const t = MathUtils.smoothstep(camera.position.z, ROOM.frontZ - 4, ROOM.frontZ + 3);
-    fog.density = MathUtils.lerp(0, 0.11, t);
+    fog.density = MathUtils.lerp(0.035, 0.12, t);
     bg.copy(warm).lerp(cold, t);
+    fog.color.copy(bg);
     rig.cold = t;
   });
   return null;

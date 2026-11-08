@@ -244,7 +244,9 @@ a {
   }
 }
 
-/* ---------- Choosing: shelf on the left, record player on the right ---------- */
+/* ---------- Choosing: shelf on the left, record player on the right ----------
+   Set text in the scene's light, never boxes: legibility comes from a soft
+   ink shadow behind the letters. */
 
 .choices {
   position: fixed;
@@ -257,27 +259,51 @@ a {
   translate: 0 -50%;
 }
 
-.choice {
+.choice,
+.step-back,
+.play,
+.panel-list a,
+.panel-list button {
+  --shadow: 0 1px 2px rgb(18 24 21 / 0.9), 0 0 18px rgb(18 24 21 / 0.85), 0 0 4px rgb(18 24 21 / 0.9);
   display: inline-flex;
   align-items: center;
   gap: 10px;
   min-height: 44px;
-  padding: 10px 14px;
+  padding: 10px 0;
   border: 0;
-  border-radius: 2px;
-  background: rgb(18 24 21 / 0.55);
+  background: none;
   color: var(--limewash);
   font: inherit;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 560;
+  text-shadow: var(--shadow);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 7px;
   cursor: pointer;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease,
+    scale 160ms var(--ease-out);
+}
+
+.choice svg,
+.step-back svg,
+.play svg,
+.mini svg {
+  filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9));
+}
+
+.choice {
+  font-size: 1.0625rem;
   opacity: 0;
   visibility: hidden;
   transition:
     opacity 220ms var(--ease-out),
     translate 220ms var(--ease-out),
     color 160ms ease,
-    background-color 160ms ease,
+    text-decoration-color 160ms ease,
     visibility 0s linear 220ms;
 }
 
@@ -297,46 +323,46 @@ a {
   transition-delay: 0s;
 }
 
-.choice[data-hot="true"] {
-  background: var(--limewash);
-  color: var(--green-black);
+.choice[data-hot="true"],
+.choice:focus-visible {
+  color: var(--ochre);
+  text-decoration-color: currentColor;
 }
 
-.choice:active {
+.choice:active,
+.step-back:active,
+.play:active {
   scale: 0.97;
 }
 
-/* ---------- Focus panel ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .step-back:hover,
+  .play:hover,
+  .panel-list a:hover,
+  .panel-list button:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ---------- Focus panel: set text over the scene ---------- */
 
 .panel {
   position: fixed;
   left: var(--gutter);
   right: var(--gutter);
-  bottom: 18px;
+  bottom: 14px;
   z-index: 11;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 24px;
-  max-width: 720px;
-  padding: 12px 18px;
-  border-radius: 2px;
-  background: rgb(18 24 21 / 0.9);
-  box-shadow: 0 8px 28px rgb(0 0 0 / 0.28);
+  gap: 0 24px;
+  width: fit-content;
   animation: panel-in 260ms var(--ease-out) both;
 }
 
 /* Shelf view: only the way back, out of the shelf's way. */
 .panel-end {
   left: auto;
-  width: fit-content;
-  padding: 0;
-  background: none;
-  box-shadow: none;
-}
-
-.panel-end .step-back {
-  background: rgb(18 24 21 / 0.82);
 }
 
 /* Record player view: controls on the empty wall above the deck. */
@@ -345,21 +371,17 @@ a {
   bottom: auto;
   flex-direction: column;
   align-items: flex-start;
-  width: fit-content;
   max-width: min(360px, calc(100vw - 2 * var(--gutter)));
 }
 
-.panel-top .panel-list {
-  flex-direction: column;
-}
-
-.panel-top .panel-list button {
-  min-height: 40px;
-  padding: 8px 0;
-}
-
-.panel-top .step-back {
-  margin-left: 0;
+/* A dim falloff behind the column, so set text reads on bright wall. */
+.panel-top::before {
+  content: "";
+  position: absolute;
+  inset: -60px -120px -60px calc(-1 * var(--gutter));
+  z-index: -1;
+  background: radial-gradient(ellipse at 20% 45%, rgb(18 24 21 / 0.55), rgb(18 24 21 / 0) 70%);
+  pointer-events: none;
 }
 
 @keyframes panel-in {
@@ -371,30 +393,16 @@ a {
 
 .panel-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0 20px;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.panel-list a,
 .panel-list button {
-  display: inline-block;
-  min-height: 44px;
-  padding: 10px 0;
-  border: 0;
-  background: none;
-  color: var(--limewash);
-  font: inherit;
-  font-size: 1rem;
-  font-weight: 560;
-  text-decoration: underline;
-  text-decoration-color: rgb(236 220 192 / 0.35);
-  text-underline-offset: 6px;
-  text-decoration-thickness: 1px;
-  cursor: pointer;
-  transition: text-decoration-color 160ms ease, color 160ms ease;
+  min-height: 40px;
+  padding: 8px 0;
+  font-weight: 500;
 }
 
 .panel-list [aria-current="true"] {
@@ -402,54 +410,9 @@ a {
   text-decoration-color: currentColor;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .panel-list a:hover,
-  .panel-list button:hover {
-    text-decoration-color: currentColor;
-  }
-}
-
-.tracks {
-  counter-reset: track;
-}
-
-.step-back,
 .play {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 10px 14px;
-  border: 1px solid rgb(236 220 192 / 0.3);
-  border-radius: 2px;
-  background: none;
-  color: var(--limewash);
-  font: inherit;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  transition: background-color 160ms ease, scale 160ms var(--ease-out);
-}
-
-.step-back {
-  margin-left: auto;
-}
-
-.play {
-  background: var(--ochre);
-  border-color: var(--ochre);
-  color: var(--green-black);
+  color: var(--ochre);
   font-weight: 650;
-}
-
-.step-back:active,
-.play:active {
-  scale: 0.97;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .step-back:hover {
-    background: rgb(236 220 192 / 0.1);
-  }
 }
 
 /* ---------- Now playing ---------- */
@@ -500,6 +463,9 @@ a {
   }
   .panel-top {
     top: 104px;
+  }
+  .choice span {
+    max-width: 8ch;
   }
   .wayfinding {
     bottom: auto;
