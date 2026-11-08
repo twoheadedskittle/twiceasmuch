@@ -70,7 +70,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, const in float depth,
   float wobble = sin(px.y * 0.07) * 1.2;
   float h1 = step(0.82, fract((px.x + px.y + wobble) / 6.0));
   float h2 = step(0.82, fract((px.x - px.y + wobble) / 6.0));
-  float hatch = h1 * (1.0 - smoothstep(0.17, 0.24, L)) + h2 * (1.0 - smoothstep(0.08, 0.13, L));
+  float hatch = h1 * (1.0 - smoothstep(0.1, 0.15, L)) + h2 * (1.0 - smoothstep(0.04, 0.08, L));
   hatch *= 1.0 - step(30.0, d0); // not on the sky / far fog
 
   col = mix(col, uInk, clamp(hatch * 0.5, 0.0, 0.5));

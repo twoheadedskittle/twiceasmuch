@@ -28,7 +28,7 @@ let glowCache: Texture | null = null;
 const glowTex = () => (glowCache ??= glow());
 let poolCache: Texture | null = null;
 const poolTex = () => (poolCache ??= poolTexture());
-import { toonRamp } from "./toon";
+import { toonRamp, toonRampDark } from "./toon";
 
 /**
  * The hallway: one-point perspective, recycled segments, so it never ends.
@@ -118,8 +118,8 @@ type SlotProps = { slot: number; floorMat: MeshToonMaterial };
 function Segment({ slot, floorMat }: SlotProps) {
   const group = useRef<Group>(null);
   const k = useRef(-1);
-  const wallL = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRamp(), bumpScale: 7 }), []);
-  const wallR = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRamp(), bumpScale: 7 }), []);
+  const wallL = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRampDark(), bumpScale: 7 }), []);
+  const wallR = useMemo(() => new MeshToonMaterial({ color: C.hallPaper, gradientMap: toonRampDark(), bumpScale: 7 }), []);
   const art = useRef<MeshBasicMaterial>(null);
   const frame = useRef<Group>(null);
   const door = useRef<Group>(null);
@@ -323,7 +323,7 @@ export function Hallway() {
   const floorMat = useMemo(() => {
     const t = checker();
     t.repeat.set(HALL.width / 1, L / 1);
-    return new MeshToonMaterial({ map: t, gradientMap: toonRamp() });
+    return new MeshToonMaterial({ map: t, gradientMap: toonRampDark() });
   }, []);
 
   useEffect(() => () => floorMat.dispose(), [floorMat]);

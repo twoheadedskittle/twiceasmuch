@@ -364,7 +364,7 @@ function RoomLights() {
     if (hemi.current) hemi.current.intensity = 0.65 * w + 0.05;
     if (amb.current) amb.current.intensity = 0.18 * w + 0.02;
     if (sun.current) sun.current.intensity = 34 * w;
-    if (lamp.current) lamp.current.intensity = 4.6 * w;
+    if (lamp.current) lamp.current.intensity = 3.6 * w;
   });
   return (
     <>
@@ -382,13 +382,13 @@ function RoomLights() {
         intensity={34}
         color="#f4f7f3"
       />
-      <pointLight ref={lamp} position={[0, H - 0.6, 1.4]} intensity={3.2} distance={7} decay={2} color="#ffc98a" />
+      <pointLight ref={lamp} position={[0, H - 1.0, -0.4]} intensity={3.2} distance={7} decay={2} color="#ffc98a" />
       {/* Pendant: cord, small mustard cloth shade, bulb, soft halo */}
-      <group position={[0, H, 1.4]}>
+      <group position={[0, H, -0.4]}>
         <Box size={[0.012, 0.3, 0.012]} position={[0, -0.15, 0]} color={C.ink} />
         <mesh position={[0, -0.38, 0]}>
           <cylinderGeometry args={[0.06, 0.13, 0.15, 24, 1, true]} />
-          <Toon color={C.mustard} side={DoubleSide} />
+          <Toon color="#a8822f" side={DoubleSide} />
         </mesh>
         <mesh position={[0, -0.43, 0]}>
           <sphereGeometry args={[0.035, 12, 8]} />
