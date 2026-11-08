@@ -1,0 +1,245 @@
+/* World tokens: the room's materials, not a UI theme. The scene is the
+   page, so there is one palette and no light/dark switch. */
+:root {
+  --green-black: #1d2a24;
+  --green-black-2: #26352e;
+  --limewash: #ecdcc0;
+  --limewash-dim: #c9b896;
+  --ochre: #d9a85c;
+  --oxblood: #7c2a24;
+  --sage: #8a9e86;
+
+  --gutter: clamp(16px, 3vw, 32px);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-color: var(--ochre) var(--green-black);
+  scrollbar-width: thin;
+}
+
+body {
+  margin: 0;
+  background: var(--green-black);
+  color: var(--limewash);
+  font-family: var(--font-voice), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--ochre);
+}
+
+::selection {
+  background: var(--oxblood);
+  color: var(--limewash);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ---------- Masthead: brand + plain index ---------- */
+
+.masthead {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px var(--gutter) 48px;
+  /* A scrim so set text reads over any part of the scene. Functional, not glass. */
+  background: linear-gradient(to bottom, rgb(18 24 21 / 0.62), rgb(18 24 21 / 0));
+  pointer-events: none;
+}
+
+.masthead a {
+  pointer-events: auto;
+}
+
+.brand {
+  font-weight: 650;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  font-variation-settings: "wdth" 90;
+}
+
+.masthead ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.masthead nav a {
+  display: inline-block;
+  padding: 10px 0;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 8px) / 0 1px;
+  transition: background-size 220ms var(--ease-out);
+}
+
+.masthead nav a[aria-current="page"],
+.masthead nav a:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .masthead nav a:hover {
+    background-size: 100% 1px;
+  }
+}
+
+.masthead nav:focus {
+  outline: none;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 12px;
+  z-index: 2;
+  padding: 10px 14px;
+  background: var(--limewash);
+  color: var(--green-black);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 160ms var(--ease-out);
+}
+
+.skip:focus-visible {
+  transform: translateY(0);
+}
+
+/* ---------- The room ---------- */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.stage[data-ready="true"] {
+  opacity: 1;
+}
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  background: var(--green-black);
+  color: var(--limewash-dim);
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  transition: opacity 700ms var(--ease-out) 150ms, visibility 0s linear 850ms;
+}
+
+.veil[data-ready="true"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.wayfinding {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 18px;
+  z-index: 10;
+  margin: 0;
+  padding: 6px 0;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--limewash);
+  text-shadow: 0 1px 12px rgb(18 24 21 / 0.9), 0 0 2px rgb(18 24 21 / 0.8);
+}
+
+.walk {
+  position: relative;
+  pointer-events: none;
+}
+
+/* ---------- Section pages ---------- */
+
+.section-page {
+  min-height: 100svh;
+  background: var(--green-black);
+}
+
+.section-body {
+  max-width: 68ch;
+  padding: clamp(120px, 22vh, 220px) var(--gutter) 96px;
+  margin: 0 auto 0 0;
+}
+
+.section-body h1 {
+  margin: 0 0 20px;
+  font-size: clamp(3rem, 9vw, 6rem);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  font-variation-settings: "wdth" 85;
+  text-wrap: balance;
+}
+
+.section-body p {
+  margin: 0 0 40px;
+  color: var(--limewash-dim);
+  font-size: 1.125rem;
+}
+
+.back {
+  display: inline-block;
+  padding: 12px 0;
+  color: var(--ochre);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
+  transition: transform 160ms var(--ease-out);
+}
+
+.back:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .veil,
+  .skip,
+  .masthead nav a {
+    transition-duration: 0ms;
+  }
+}
+
+@media (max-width: 560px) {
+  .masthead {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .masthead ul {
+    justify-content: flex-start;
+  }
+}
