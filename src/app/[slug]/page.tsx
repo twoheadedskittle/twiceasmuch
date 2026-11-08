@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { SiteIndex } from "@/components/SiteIndex";
 import { findSection, site } from "@/config/site";
 
+// Only the sections in config exist; any other path is a real 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return site.sections.map((s) => ({ slug: s.slug }));
 }
