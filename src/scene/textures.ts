@@ -343,8 +343,8 @@ function repeatTex(c: HTMLCanvasElement) {
   return t;
 }
 
-/** Ochre limewash: cloudy, uneven, brushed in every direction. */
-export function limewash(base = "#c99a5b"): Texture {
+/** Limewash: cloudy, uneven paint, brushed in every direction, in any base colour. */
+export function limewash(base: string): Texture {
   const S = 512;
   const { c, ctx } = canvas(S, S);
   const r = seeded(base.length * 97 + 3);

@@ -313,7 +313,7 @@ function Atmosphere() {
   const fog = useMemo(() => new FogExp2(new Color(C.hallFog), 0), []);
   const warm = useMemo(() => new Color("#24120f"), []);
   const cold = useMemo(() => new Color(C.hallFog), []);
-  const bg = useMemo(() => new Color("#1d2a24"), []);
+  const bg = useMemo(() => new Color("#24120f"), []);
 
   useEffect(() => {
     scene.fog = fog;
