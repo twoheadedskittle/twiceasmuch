@@ -19,7 +19,9 @@ import { C } from "./palette";
 import { Box } from "./parts";
 import { seeded } from "./random";
 import { rig, ROOM, uiStore } from "./rig";
-import { floorboards, glow, lightSpill, limewash, rain, runner, sagePaint, windowView } from "./textures";
+import { outdoor } from "./outdoorState";
+import { Outdoors } from "./Outdoors";
+import { glow, lightSpill, limewash, rain, zigzagFloor } from "./textures";
 import { toonRamp } from "./toon";
 
 const { width: W, height: H, backZ, frontZ, depth: D } = ROOM;
@@ -33,14 +35,14 @@ function Toon({ color, side }: { color: string; side?: typeof DoubleSide }) {
 /* ---------- Shell: floor, ceiling, panelled side walls ---------- */
 
 function Shell() {
-  const boards = useMemo(() => {
-    const t = floorboards();
-    t.repeat.set(W, D);
+  // Zigzag floor: one repeat every 1.6 m.
+  const floor = useMemo(() => {
+    const t = zigzagFloor();
+    t.repeat.set(W / 1.6, D / 1.6);
     return t;
   }, []);
-  const rug = useMemo(() => runner(), []);
-  const plaster = useMemo(() => limewash("#ddb67c"), []);
-  const sage = useMemo(() => sagePaint(), []);
+  const ceiling = useMemo(() => limewash(C.crimsonCeiling), []);
+  const crimson = useMemo(() => limewash(C.crimson), []);
 
   // Panel mouldings below the dado rail, every 1.15 m along each side wall.
   const panels = useMemo(() => {
@@ -53,28 +55,24 @@ function Shell() {
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
         <planeGeometry args={[W, D]} />
-        <meshToonMaterial map={boards} gradientMap={toonRamp()} />
+        <meshToonMaterial map={floor} gradientMap={toonRamp()} />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, -0.3]}>
-        <planeGeometry args={[1.7, 4.6]} />
-        <meshToonMaterial map={rug} gradientMap={toonRamp()} />
-      </mesh>
-      <Box size={[W, 0.02, D]} position={[0, H, 0]} color="#ffffff" map={plaster} tile={2} />
+      <Box size={[W, 0.02, D]} position={[0, H, 0]} color="#ffffff" map={ceiling} tile={2} />
       {/* Cornice */}
       {[-1, 1].map((s) => (
         <Box key={`k${s}`} size={[0.08, 0.1, D]} position={[s * (W / 2 - 0.04), H - 0.05, 0]} color={C.frame} />
       ))}
       {[-1, 1].map((s) => (
         <group key={s}>
-          <Box size={[T, H, D]} position={[s * (W / 2), H / 2, 0]} color="#ffffff" map={sage} tile={1.6} />
+          <Box size={[T, H, D]} position={[s * (W / 2), H / 2, 0]} color="#ffffff" map={crimson} tile={1.6} />
           <Box size={[0.04, 0.06, D]} position={[s * (W / 2 - 0.09), DADO, 0]} color={C.frame} />
-          <Box size={[0.03, 0.12, D]} position={[s * (W / 2 - 0.09), 0.06, 0]} color={C.greenBlack} />
+          <Box size={[0.03, 0.12, D]} position={[s * (W / 2 - 0.09), 0.06, 0]} color={C.lacquer} />
           {panels.map((p, i) => (
             <group key={i} position={[s * (W / 2 - 0.085), 0, p.z]}>
-              <Box size={[0.025, 0.03, p.w]} position={[0, DADO - 0.14, 0]} color={C.sageDeep} />
-              <Box size={[0.025, 0.03, p.w]} position={[0, 0.26, 0]} color={C.sageDeep} />
-              <Box size={[0.025, DADO - 0.43, 0.03]} position={[0, (DADO + 0.12) / 2, -p.w / 2]} color={C.sageDeep} />
-              <Box size={[0.025, DADO - 0.43, 0.03]} position={[0, (DADO + 0.12) / 2, p.w / 2]} color={C.sageDeep} />
+              <Box size={[0.025, 0.03, p.w]} position={[0, DADO - 0.14, 0]} color={C.crimsonDeep} />
+              <Box size={[0.025, 0.03, p.w]} position={[0, 0.26, 0]} color={C.crimsonDeep} />
+              <Box size={[0.025, DADO - 0.43, 0.03]} position={[0, (DADO + 0.12) / 2, -p.w / 2]} color={C.crimsonDeep} />
+              <Box size={[0.025, DADO - 0.43, 0.03]} position={[0, (DADO + 0.12) / 2, p.w / 2]} color={C.crimsonDeep} />
             </group>
           ))}
         </group>
@@ -92,8 +90,7 @@ function WindowWall() {
   const z = backZ;
   const cols = 4;
   const rows = 3;
-  const view = useMemo(() => windowView(), []);
-  const plaster = useMemo(() => limewash(), []);
+  const plaster = useMemo(() => limewash(C.crimson), []);
   const drops = useMemo(() => {
     const t = rain();
     t.repeat.set(3, 1.6);
@@ -101,9 +98,18 @@ function WindowWall() {
   }, []);
   const spill = useMemo(() => lightSpill(cols, rows), []);
   const rainMat = useRef<MeshBasicMaterial>(null);
+  const spillMat = useRef<MeshBasicMaterial>(null);
 
   useFrame((_, dt) => {
-    if (rainMat.current) rainMat.current.visible = rig.beat !== "hallway";
+    // Rain and the light on the floor follow the weather outside.
+    if (rainMat.current) {
+      rainMat.current.opacity = 0.45 * outdoor.rain;
+      rainMat.current.visible = rig.beat !== "hallway" && outdoor.rain > 0.02;
+    }
+    if (spillMat.current) {
+      spillMat.current.opacity = 0.26 * Math.min(1, outdoor.lightIntensity / 30);
+      spillMat.current.color.copy(outdoor.light);
+    }
     if (rig.reducedMotion) return;
     drops.offset.y += dt * 0.9;
     drops.offset.x += dt * 0.08;
@@ -128,11 +134,7 @@ function WindowWall() {
         <Box key={`r${i}`} size={[ww, 0.045, 0.05]} position={[0, sill + ((i + 1) * wh) / rows, z]} color={C.frame} />
       ))}
 
-      {/* Original rainy-garden view, then rain falling in front of it */}
-      <mesh position={[0, sill + wh / 2 + 0.1, z - 1.6]}>
-        <planeGeometry args={[ww * 2.3, ww * 2.3 * (1024 / 1536)]} />
-        <meshBasicMaterial map={view} toneMapped={false} fog={false} />
-      </mesh>
+      {/* The world outside is real 3D (Outdoors.tsx); rain streaks the glass when it rains */}
       <mesh position={[0, sill + wh / 2, z - 0.5]}>
         <planeGeometry args={[ww * 1.6, wh * 1.6]} />
         <meshBasicMaterial ref={rainMat} map={drops} transparent opacity={0.35} depthWrite={false} toneMapped={false} fog={false} />
@@ -141,7 +143,7 @@ function WindowWall() {
       {/* Daylight spilling onto the floor, panes and bars */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.013, z + 1.8]}>
         <planeGeometry args={[ww * 1.15, 3.2]} />
-        <meshBasicMaterial map={spill} transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial ref={spillMat} map={spill} transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
 
       <SillObjects y={sill + 0.01} z={z + 0.15} />
@@ -156,22 +158,22 @@ function SillObjects({ y, z }: { y: number; z: number }) {
       <group position={[-1.05, 0, 0]}>
         <mesh position={[0, 0.08, 0]}>
           <cylinderGeometry args={[0.09, 0.07, 0.16, 18]} />
-          <Toon color="#3d5a6b" />
+          <Toon color={C.lacquer} />
         </mesh>
         {[[0, 0.3, 0, 0.1], [-0.08, 0.38, 0.02, 0.075], [0.07, 0.42, -0.01, 0.07], [0.01, 0.5, 0.01, 0.06]].map(([x, yy, zz, r], i) => (
           <mesh key={i} position={[x, yy, zz]} scale={[1, 0.7, 1]}>
             <sphereGeometry args={[r, 12, 8]} />
-            <Toon color={i % 2 ? C.sageDeep : "#5d7a4e"} />
+            <Toon color={i % 2 ? C.crimsonDeep : C.leaf} />
           </mesh>
         ))}
-        <Box size={[0.012, 0.22, 0.012]} position={[0, 0.25, 0]} color={C.oakDark} />
+        <Box size={[0.012, 0.22, 0.012]} position={[0, 0.25, 0]} color={C.walnutDark} />
       </group>
       <mesh position={[-0.55, 0.05, 0.02]}>
         <cylinderGeometry args={[0.04, 0.04, 0.1, 16]} />
-        <Toon color="#3d5a6b" />
+        <Toon color={C.lacquer} />
       </mesh>
-      <Box size={[0.26, 0.04, 0.18]} position={[0.75, 0.02, 0]} rotation={[0, 0.1, 0]} color={C.mustard} />
-      <Box size={[0.24, 0.035, 0.17]} position={[0.76, 0.058, 0]} rotation={[0, -0.05, 0]} color={C.sage} />
+      <Box size={[0.26, 0.04, 0.18]} position={[0.75, 0.02, 0]} rotation={[0, 0.1, 0]} color={C.brass} />
+      <Box size={[0.24, 0.035, 0.17]} position={[0.76, 0.058, 0]} rotation={[0, -0.05, 0]} color={C.crimson} />
       <mesh position={[1.1, 0.06, 0]}>
         <cylinderGeometry args={[0.025, 0.025, 0.12, 12]} />
         <Toon color={C.frame} />
@@ -183,7 +185,7 @@ function SillObjects({ y, z }: { y: number; z: number }) {
 /* ---------- Reading corner: armchair, floor lamp, side table ---------- */
 
 function ReadingCorner() {
-  const velvet = C.salmon;
+  const velvet = C.cream;
   return (
     <group position={[-2.05, 0, -0.55]} rotation={[0, -0.9, 0]}>
       {/* Armchair: low, rounded, velvet, on brass legs */}
@@ -208,8 +210,8 @@ function ReadingCorner() {
           <Box key={i} size={[0.03, 0.27, 0.03]} position={[x, 0.135, z]} color={C.brass} />
         ))}
         {/* A cushion and a folded throw */}
-        <Box size={[0.36, 0.26, 0.1]} position={[0.12, 0.62, 0.12]} rotation={[-0.3, 0.2, 0.1]} color={C.mustard} />
-        <Box size={[0.5, 0.05, 0.3]} position={[-0.1, 0.48, -0.12]} rotation={[0, 0.1, 0]} color={C.sageDeep} />
+        <Box size={[0.36, 0.26, 0.1]} position={[0.12, 0.62, 0.12]} rotation={[-0.3, 0.2, 0.1]} color={C.brass} />
+        <Box size={[0.5, 0.05, 0.3]} position={[-0.1, 0.48, -0.12]} rotation={[0, 0.1, 0]} color={C.crimsonDeep} />
       </group>
 
       {/* Floor lamp behind the chair's shoulder */}
@@ -234,15 +236,15 @@ function ReadingCorner() {
       <group position={[0.68, 0, -0.18]}>
         <mesh position={[0, 0.52, 0]}>
           <cylinderGeometry args={[0.24, 0.24, 0.04, 28]} />
-          <Toon color={C.oak} />
+          <Toon color={C.walnut} />
         </mesh>
-        <Box size={[0.04, 0.5, 0.04]} position={[0, 0.25, 0]} color={C.oakDark} />
+        <Box size={[0.04, 0.5, 0.04]} position={[0, 0.25, 0]} color={C.walnutDark} />
         <mesh position={[0, 0.02, 0]}>
           <cylinderGeometry args={[0.16, 0.18, 0.03, 20]} />
-          <Toon color={C.oakDark} />
+          <Toon color={C.walnutDark} />
         </mesh>
         <Box size={[0.22, 0.04, 0.16]} position={[-0.04, 0.56, 0.02]} rotation={[0, 0.4, 0]} color={C.oxblood} />
-        <Box size={[0.2, 0.035, 0.15]} position={[-0.03, 0.595, 0.02]} rotation={[0, 0.2, 0]} color="#3d5a6b" />
+        <Box size={[0.2, 0.035, 0.15]} position={[-0.03, 0.595, 0.02]} rotation={[0, 0.2, 0]} color={C.lacquer} />
         <mesh position={[0.12, 0.585, -0.08]}>
           <cylinderGeometry args={[0.04, 0.04, 0.09, 16]} />
           <Toon color={C.frame} />
@@ -267,11 +269,11 @@ function Fig() {
         <cylinderGeometry args={[0.24, 0.18, 0.44, 22]} />
         <Toon color={C.oxblood} />
       </mesh>
-      <Box size={[0.04, 1.3, 0.04]} position={[0, 1.0, 0]} rotation={[0, 0, 0.05]} color={C.oakDark} />
+      <Box size={[0.04, 1.3, 0.04]} position={[0, 1.0, 0]} rotation={[0, 0, 0.05]} color={C.walnutDark} />
       {leaves.map((l, i) => (
         <mesh key={i} position={l.p} scale={[1, 0.55, 1]}>
           <sphereGeometry args={[l.s, 10, 8]} />
-          <Toon color={i % 3 ? "#5d7a4e" : C.sageDeep} />
+          <Toon color={i % 3 ? C.leaf : C.crimsonDeep} />
         </mesh>
       ))}
     </group>
@@ -296,14 +298,14 @@ function PanelWall() {
 
   return (
     <group>
-      <Box size={[sideW, H, T]} position={[-(dw / 2 + sideW / 2), H / 2, z]} color={C.greenBlack} />
-      <Box size={[sideW, H, T]} position={[dw / 2 + sideW / 2, H / 2, z]} color={C.greenBlack} />
-      <Box size={[dw, H - dh, T]} position={[0, dh + (H - dh) / 2, z]} color={C.greenBlack} />
+      <Box size={[sideW, H, T]} position={[-(dw / 2 + sideW / 2), H / 2, z]} color={C.lacquer} />
+      <Box size={[sideW, H, T]} position={[dw / 2 + sideW / 2, H / 2, z]} color={C.lacquer} />
+      <Box size={[dw, H - dh, T]} position={[0, dh + (H - dh) / 2, z]} color={C.lacquer} />
       {[left, right].map((ref, i) => (
         <group key={i} ref={ref} position={[(i ? 1 : -1) * (dw / 4), 0, z - 0.02]}>
-          <Box size={[dw / 2, dh, T * 0.6]} position={[0, dh / 2, 0]} color={C.greenBlack} />
-          <Box size={[dw / 2 - 0.18, dh * 0.42, 0.02]} position={[0, dh * 0.72, -T * 0.32]} color={C.sageDeep} />
-          <Box size={[dw / 2 - 0.18, dh * 0.42, 0.02]} position={[0, dh * 0.26, -T * 0.32]} color={C.sageDeep} />
+          <Box size={[dw / 2, dh, T * 0.6]} position={[0, dh / 2, 0]} color={C.lacquer} />
+          <Box size={[dw / 2 - 0.18, dh * 0.42, 0.02]} position={[0, dh * 0.72, -T * 0.32]} color={C.crimsonDeep} />
+          <Box size={[dw / 2 - 0.18, dh * 0.42, 0.02]} position={[0, dh * 0.26, -T * 0.32]} color={C.crimsonDeep} />
         </group>
       ))}
       {/* Brass frame around the opening */}
@@ -363,7 +365,11 @@ function RoomLights() {
     const w = 1 - rig.cold;
     if (hemi.current) hemi.current.intensity = 0.65 * w + 0.05;
     if (amb.current) amb.current.intensity = 0.18 * w + 0.02;
-    if (sun.current) sun.current.intensity = 34 * w;
+    // Daylight through the window: colour and strength follow the weather.
+    if (sun.current) {
+      sun.current.intensity = outdoor.lightIntensity * w;
+      sun.current.color.copy(outdoor.light);
+    }
     if (lamp.current) lamp.current.intensity = 3.6 * w;
   });
   return (
@@ -414,6 +420,7 @@ export function Room() {
       <PanelWall />
       <ChoiceLights />
       <RoomLights />
+      <Outdoors />
     </group>
   );
 }

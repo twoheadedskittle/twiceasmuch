@@ -1,17 +1,14 @@
 /* World tokens: the room's materials, not a UI theme. The scene is the
    page, so there is one palette and no light/dark switch. */
 :root {
-  --green-black: #1d2a24;
-  --green-black-2: #26352e;
+  --ground: #140c0d;
   --limewash: #ecdcc0;
   --limewash-dim: #c9b896;
-  --ochre: #d9a85c;
+  --accent: #e0565b;
   --oxblood: #7c2a24;
-  --sage: #8a9e86;
 
   --gutter: clamp(16px, 3vw, 32px);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
   color-scheme: dark;
 }
@@ -23,19 +20,19 @@
 }
 
 html {
-  scrollbar-color: var(--ochre) var(--green-black);
+  scrollbar-color: var(--accent) var(--ground);
   scrollbar-width: thin;
 }
 
 body {
   margin: 0;
-  background: var(--green-black);
+  background: var(--ground);
   color: var(--limewash);
   font-family: var(--font-voice), system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  caret-color: var(--ochre);
+  caret-color: var(--accent);
 }
 
 ::selection {
@@ -48,7 +45,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--ochre);
+  outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 2px;
 }
@@ -65,7 +62,7 @@ a {
   gap: 24px;
   padding: 20px var(--gutter) 48px;
   /* A scrim so set text reads over any part of the scene. Functional, not glass. */
-  background: linear-gradient(to bottom, rgb(18 24 21 / 0.62), rgb(18 24 21 / 0));
+  background: linear-gradient(to bottom, rgb(20 12 13 / 0.62), rgb(20 12 13 / 0));
   pointer-events: none;
 }
 
@@ -79,6 +76,20 @@ a {
   letter-spacing: -0.01em;
   text-decoration: none;
   font-variation-settings: "wdth" 90;
+}
+
+.masthead nav {
+  position: absolute;
+  right: var(--gutter);
+  top: 20px;
+  clip-path: inset(50%);
+  opacity: 0;
+}
+
+.masthead nav:focus-within,
+.masthead nav:focus {
+  clip-path: none;
+  opacity: 1;
 }
 
 .masthead ul {
@@ -122,7 +133,7 @@ a {
   z-index: 2;
   padding: 10px 14px;
   background: var(--limewash);
-  color: var(--green-black);
+  color: var(--ground);
   font-weight: 600;
   text-decoration: none;
   transform: translateY(-160%);
@@ -152,7 +163,7 @@ a {
   z-index: 5;
   display: grid;
   place-items: center;
-  background: var(--green-black);
+  background: var(--ground);
   color: var(--limewash-dim);
   font-size: 0.9375rem;
   letter-spacing: 0.02em;
@@ -175,7 +186,7 @@ a {
   font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
   color: var(--limewash);
-  text-shadow: 0 1px 12px rgb(18 24 21 / 0.9), 0 0 2px rgb(18 24 21 / 0.8);
+  text-shadow: 0 1px 12px rgb(20 12 13 / 0.9), 0 0 2px rgb(20 12 13 / 0.8);
 }
 
 .walk {
@@ -187,7 +198,7 @@ a {
 
 .section-page {
   min-height: 100svh;
-  background: var(--green-black);
+  background: var(--ground);
 }
 
 .section-body {
@@ -215,7 +226,7 @@ a {
 .back {
   display: inline-block;
   padding: 12px 0;
-  color: var(--ochre);
+  color: var(--accent);
   text-underline-offset: 6px;
   text-decoration-thickness: 1px;
   transition: transform 160ms var(--ease-out);
@@ -264,7 +275,7 @@ a {
 .play,
 .panel-list a,
 .panel-list button {
-  --shadow: 0 1px 2px rgb(18 24 21 / 0.9), 0 0 18px rgb(18 24 21 / 0.85), 0 0 4px rgb(18 24 21 / 0.9);
+  --shadow: 0 1px 2px rgb(20 12 13 / 0.9), 0 0 18px rgb(20 12 13 / 0.85), 0 0 4px rgb(20 12 13 / 0.9);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -292,7 +303,7 @@ a {
 .step-back svg,
 .play svg,
 .mini svg {
-  filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9));
+  filter: drop-shadow(0 0 6px rgb(20 12 13 / 0.9));
 }
 
 .choice {
@@ -325,7 +336,7 @@ a {
 
 .choice[data-hot="true"],
 .choice:focus-visible {
-  color: var(--ochre);
+  color: var(--accent);
   text-decoration-color: currentColor;
 }
 
@@ -380,7 +391,7 @@ a {
   position: absolute;
   inset: -60px -120px -60px calc(-1 * var(--gutter));
   z-index: -1;
-  background: radial-gradient(ellipse at 20% 45%, rgb(18 24 21 / 0.55), rgb(18 24 21 / 0) 70%);
+  background: radial-gradient(ellipse at 20% 45%, rgb(20 12 13 / 0.55), rgb(20 12 13 / 0) 70%);
   pointer-events: none;
 }
 
@@ -406,12 +417,12 @@ a {
 }
 
 .panel-list [aria-current="true"] {
-  color: var(--ochre);
+  color: var(--accent);
   text-decoration-color: currentColor;
 }
 
 .play {
-  color: var(--ochre);
+  color: var(--accent);
   font-weight: 650;
 }
 
@@ -426,7 +437,7 @@ a {
   align-items: center;
   gap: 6px;
   font-size: 0.875rem;
-  text-shadow: 0 1px 12px rgb(18 24 21 / 0.9);
+  text-shadow: 0 1px 12px rgb(20 12 13 / 0.9);
 }
 
 .mini button {
@@ -470,5 +481,115 @@ a {
   .wayfinding {
     bottom: auto;
     top: 92px;
+  }
+}
+
+/* ---------- Looking at a frame in the hallway ---------- */
+
+.frame-view {
+  position: fixed;
+  inset: auto var(--gutter) 22px;
+  z-index: 11;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  animation: panel-in 260ms var(--ease-out) both;
+  pointer-events: none;
+}
+
+.frame-view > * {
+  pointer-events: auto;
+}
+
+.frame-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: auto;
+  translate: calc(-1 * var(--gutter)) 0;
+}
+
+.frame-title {
+  margin: 0 0 2px;
+  font-size: 0.9375rem;
+  color: var(--limewash-dim);
+  text-shadow: 0 1px 2px rgb(20 12 13 / 0.9), 0 0 18px rgb(20 12 13 / 0.85);
+}
+
+.buy {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 4px;
+  color: var(--limewash);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+  text-shadow: 0 1px 2px rgb(20 12 13 / 0.9), 0 0 22px rgb(20 12 13 / 0.85);
+  transition: color 160ms ease, scale 160ms var(--ease-out);
+}
+
+.buy:active {
+  scale: 0.97;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .buy:hover {
+    color: var(--accent);
+  }
+}
+
+/* ---------- Dwell ring: fills while the pointer rests on a frame ---------- */
+
+@property --p {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+.dwell {
+  position: fixed;
+  left: -17px;
+  top: -17px;
+  z-index: 12;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: conic-gradient(var(--limewash) calc(var(--p) * 1turn), rgb(236 220 192 / 0.18) 0);
+  mask: radial-gradient(circle, transparent 12px, #000 13px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.dwell[data-on="true"] {
+  opacity: 1;
+  animation: dwell var(--dwell, 1200ms) linear forwards;
+}
+
+@keyframes dwell {
+  to {
+    --p: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame-view {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .frame-view {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .frame-buy {
+    translate: none;
   }
 }

@@ -20,7 +20,7 @@ const T = 0.15; // wall thickness
 
 /* ---------- Bookshelf ---------- */
 
-const SPINES = [C.oxblood, C.mustard, C.sageDeep, C.salmon, C.greenBlack, C.frame, "#3d5a6b"];
+const SPINES = [C.oxblood, C.brass, C.crimsonDeep, C.cream, C.lacquer, C.frame, C.lacquer];
 
 /** Seeded so the same shelf fills the same way on every load. */
 function fillShelves(shelves: number, width: number, shelfH: number) {
@@ -126,24 +126,24 @@ export function Bookshelf() {
         if (uiStore.get().focus !== "shelf") focusOn("shelf");
       }}
     >
-      <Box size={[width, height, 0.04]} position={[0, height / 2, -depth / 2]} color={C.oakDark} />
-      <Box size={[0.05, height, depth]} position={[-width / 2, height / 2, 0]} color={C.oak} />
-      <Box size={[0.05, height, depth]} position={[width / 2, height / 2, 0]} color={C.oak} />
-      <Box size={[width + 0.1, 0.06, depth + 0.04]} position={[0, height + 0.03, 0]} color={C.oak} />
+      <Box size={[width, height, 0.04]} position={[0, height / 2, -depth / 2]} color={C.walnutDark} />
+      <Box size={[0.05, height, depth]} position={[-width / 2, height / 2, 0]} color={C.walnut} />
+      <Box size={[0.05, height, depth]} position={[width / 2, height / 2, 0]} color={C.walnut} />
+      <Box size={[width + 0.1, 0.06, depth + 0.04]} position={[0, height + 0.03, 0]} color={C.walnut} />
       {Array.from({ length: shelves }, (_, i) => (
-        <Box key={i} size={[width, 0.04, depth]} position={[0, 0.13 + i * shelfH, 0]} color={C.oak} />
+        <Box key={i} size={[width, 0.04, depth]} position={[0, 0.13 + i * shelfH, 0]} color={C.walnut} />
       ))}
       <Books books={books} depth={depth * 0.8} />
       {/* A few things on top: a plant, a small stack, a bookend. */}
       <group position={[0, height + 0.06, 0]}>
         <mesh position={[-0.55, 0.07, 0]}>
           <cylinderGeometry args={[0.07, 0.055, 0.14, 16]} />
-          <meshToonMaterial color={C.salmon} gradientMap={toonRamp()} />
+          <meshToonMaterial color={C.cream} gradientMap={toonRamp()} />
         </mesh>
         {[[-0.58, 0.2, 0.02], [-0.5, 0.24, -0.03], [-0.55, 0.3, 0.01]].map((p, i) => (
           <mesh key={i} position={p as [number, number, number]}>
             <sphereGeometry args={[0.07 - i * 0.012, 10, 8]} />
-            <meshToonMaterial color={C.sageDeep} gradientMap={toonRamp()} />
+            <meshToonMaterial color={C.crimsonDeep} gradientMap={toonRamp()} />
           </mesh>
         ))}
         <Box size={[0.24, 0.04, 0.17]} position={[0.4, 0.02, 0]} color={C.oxblood} />
@@ -212,9 +212,9 @@ export function RecordPlayer() {
     // Against the right wall near the window, facing -X (toward the shelf).
     <group position={[W / 2 - 0.3 - T / 2, 0, ROOM.furnitureZ]} rotation={[0, -Math.PI / 2, 0]}>
       {/* Low sage cabinet with two doors on brass legs */}
-      <Box size={[1.1, 0.6, 0.5]} position={[0, 0.38, 0]} color={C.sageDeep} />
-      <Box size={[0.5, 0.46, 0.01]} position={[-0.27, 0.38, 0.255]} color={C.sage} />
-      <Box size={[0.5, 0.46, 0.01]} position={[0.27, 0.38, 0.255]} color={C.sage} />
+      <Box size={[1.1, 0.6, 0.5]} position={[0, 0.38, 0]} color={C.crimsonDeep} />
+      <Box size={[0.5, 0.46, 0.01]} position={[-0.27, 0.38, 0.255]} color={C.crimson} />
+      <Box size={[0.5, 0.46, 0.01]} position={[0.27, 0.38, 0.255]} color={C.crimson} />
       <Box size={[0.03, 0.03, 0.03]} position={[-0.05, 0.42, 0.27]} color={C.brass} />
       <Box size={[0.03, 0.03, 0.03]} position={[0.05, 0.42, 0.27]} color={C.brass} />
       {[[-0.5, -0.2], [0.5, -0.2], [-0.5, 0.2], [0.5, 0.2]].map(([x, z], i) => (
@@ -223,7 +223,7 @@ export function RecordPlayer() {
 
       {/* The deck: click to walk over, click again to play or pause */}
       <group onClick={onDeck} {...pointer}>
-        <Box size={[0.56, 0.08, 0.42]} position={[-0.18, 0.72, 0]} color={C.oak} />
+        <Box size={[0.56, 0.08, 0.42]} position={[-0.18, 0.72, 0]} color={C.walnut} />
         <group ref={platter} position={[-0.24, 0.775, 0]}>
           <mesh>
             <cylinderGeometry args={[0.16, 0.16, 0.012, 64]} />
@@ -240,7 +240,7 @@ export function RecordPlayer() {
           <Box size={[0.012, 0.012, 0.26]} position={[-0.03, 0.015, 0.12]} rotation={[0, 0.25, 0]} color={C.frame} />
           <Box size={[0.03, 0.012, 0.04]} position={[-0.065, 0.012, 0.25]} color={C.ink} />
         </group>
-        <Box size={[0.03, 0.02, 0.03]} position={[0.04, 0.775, 0.15]} color={state.playing ? C.mustard : C.frame} />
+        <Box size={[0.03, 0.02, 0.03]} position={[0.04, 0.775, 0.15]} color={state.playing ? C.brass : C.frame} />
       </group>
 
       {/* Sleeve leaning on the wall: the track list, each row playable */}
@@ -248,9 +248,9 @@ export function RecordPlayer() {
         <planeGeometry args={[0.42, 0.42]} />
         <meshBasicMaterial map={sleeveTex} toneMapped={false} />
       </mesh>
-      <Box size={[0.43, 0.43, 0.006]} position={[0.3, 0.9, -0.175]} rotation={[-0.16, 0, 0]} color={C.salmon} />
+      <Box size={[0.43, 0.43, 0.006]} position={[0.3, 0.9, -0.175]} rotation={[-0.16, 0, 0]} color={C.cream} />
       {/* A second record leaning against the cabinet side */}
-      <Box size={[0.32, 0.32, 0.008]} position={[0.62, 0.17, 0.05]} rotation={[0, 1.4, 0.12]} color={C.mustard} />
+      <Box size={[0.32, 0.32, 0.008]} position={[0.62, 0.17, 0.05]} rotation={[0, 1.4, 0.12]} color={C.brass} />
     </group>
   );
 }

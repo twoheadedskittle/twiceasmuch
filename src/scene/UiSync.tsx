@@ -6,10 +6,10 @@ import { rig, ROOM, uiStore, type Beat } from "./rig";
 import { stepsToWindow } from "./timeline";
 
 /** Last pointer position as a 0..1 fraction of the viewport width. */
-export const pointer = { x: 0.5, fine: false };
+export const pointer = { x: 0.5, cx: 0, cy: 0, fine: false };
 
 /** The bottom-right line; set by Experience. */
-export const hudRefs: { wayfinding: HTMLElement | null } = { wayfinding: null };
+export const hudRefs: { wayfinding: HTMLElement | null; dwell: HTMLElement | null } = { wayfinding: null, dwell: null };
 
 function wayfinding(beat: Beat): string {
   switch (beat) {

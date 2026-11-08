@@ -24,6 +24,8 @@ export type Track = {
 
 export type Artwork = {
   title: string;
+  /** Where "Buy?" goes for this piece: a shop page, a checkout link or a mailto:. */
+  buyUrl?: string;
   /** Path under /public, e.g. "/artwork/stairwell.webp". null until supplied. */
   src: string | null;
   year?: string;
@@ -65,6 +67,15 @@ export const site = {
     hallMetersPerScreen: 4,
     /** Path to your own hands glTF under /public (e.g. "/models/hands.glb"); null uses the placeholder. */
     handsModel: null as string | null,
+    /** Minutes the weather outside holds before it turns (dawn, clear, overcast, rain, golden hour, dusk, night). */
+    outdoorCycleMinutes: 3,
+    /** Seconds the pointer rests on a hallway frame before you walk up to it. */
+    frameDwellSeconds: 1.2,
+  },
+
+  /** Used by "Buy?" when a piece has no buyUrl of its own. Placeholder: replace with your shop or email. */
+  shop: {
+    fallbackBuyUrl: "mailto:hello@example.com?subject=Buying%20a%20piece",
   },
 } as const;
 

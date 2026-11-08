@@ -21,7 +21,10 @@ import { site } from "@/config/site";
 import { C } from "./palette";
 import { Box } from "./parts";
 import { seeded } from "./random";
-import { rig, ROOM } from "./rig";
+import { HALL } from "./hallLayout";
+import { cancelDwell, moveDwell, startDwell, viewFrame } from "./focus";
+import { setCursor } from "./nav";
+import { rig, ROOM, uiStore } from "./rig";
 import { checker, glow, placeholderArt, pool as poolTexture, relief } from "./textures";
 
 let glowCache: Texture | null = null;
@@ -36,13 +39,7 @@ import { toonRamp, toonRampDark } from "./toon";
  * seeded by k), so walking back shows the same corridor you walked down.
  */
 
-export const HALL = {
-  start: ROOM.frontZ + 0.08,
-  segment: 3,
-  slots: 9,
-  width: ROOM.doorway.width,
-  height: 2.8,
-} as const;
+export { HALL };
 
 const L = HALL.segment;
 const HW = HALL.width / 2;
@@ -231,8 +228,27 @@ function Segment({ slot, floorMat }: SlotProps) {
       </mesh>
 
       {/* Hanging frame with artwork */}
-      <group ref={frame} position={[-HW, 1.55, L / 2]}>
-        <Box size={[0.72, 0.9, 0.04]} color={C.oakDark} />
+      <group
+        ref={frame}
+        position={[-HW, 1.55, L / 2]}
+        // Rest the pointer on a frame to step up to it; a tap goes straight there.
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          if (uiStore.get().focus) return;
+          setCursor("pointer");
+          startDwell(k.current);
+        }}
+        onPointerMove={() => moveDwell()}
+        onPointerOut={() => {
+          setCursor("auto");
+          cancelDwell();
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (uiStore.get().focus !== "frame") viewFrame(k.current);
+        }}
+      >
+        <Box size={[0.72, 0.9, 0.04]} color={C.walnutDark} />
         <mesh position={[0, 0, 0.022]}>
           <planeGeometry args={[0.6, 0.76]} />
           <meshBasicMaterial ref={art} toneMapped={false} />
@@ -295,7 +311,7 @@ function LampLights() {
 function Atmosphere() {
   const scene = useThree((s) => s.scene);
   const fog = useMemo(() => new FogExp2(new Color(C.hallFog), 0), []);
-  const warm = useMemo(() => new Color("#2b2219"), []);
+  const warm = useMemo(() => new Color("#24120f"), []);
   const cold = useMemo(() => new Color(C.hallFog), []);
   const bg = useMemo(() => new Color("#1d2a24"), []);
 

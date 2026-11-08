@@ -2,11 +2,17 @@
 
 import { useSyncExternalStore } from "react";
 import { getState, play, subscribe, toggle } from "@/audio/player";
-import { site } from "@/config/site";
+import { site, type Artwork } from "@/config/site";
 import { focusOn, release } from "@/scene/focus";
 import { uiStore } from "@/scene/rig";
 import { hudRefs } from "@/scene/UiSync";
 import { ArrowLeft, ArrowRight, Pause, Play, StepBack } from "./Icons";
+
+/** The artwork hung in hallway segment k (frames cycle through the config list). */
+function artworkAt(k: number): Artwork | null {
+  const list = site.artwork;
+  return list.length ? list[k % list.length] : null;
+}
 
 /**
  * Everything the visitor can press outside the 3D scene. These are the
@@ -74,6 +80,35 @@ export function Hud() {
           </button>
         </section>
       )}
+
+      {/* Looking at a frame in the hallway: buy it, or go back to walking. */}
+      {ui.focus === "frame" && ui.frame !== null && (
+        <section className="frame-view" aria-label="Artwork">
+          <button type="button" className="step-back frame-back" onClick={release}>
+            <ArrowLeft />
+            Back to the hallway
+          </button>
+          <div className="frame-buy">
+            <p className="frame-title">
+              {artworkAt(ui.frame)?.title ?? "Untitled"}
+              {artworkAt(ui.frame)?.placeholder ? " (placeholder)" : ""}
+            </p>
+            <a className="buy" href={artworkAt(ui.frame)?.buyUrl ?? site.shop.fallbackBuyUrl}>
+              Buy?
+            </a>
+          </div>
+        </section>
+      )}
+
+      {/* Fills while the pointer rests on a frame. */}
+      <span
+        className="dwell"
+        aria-hidden="true"
+        data-on="false"
+        ref={(el) => {
+          hudRefs.dwell = el;
+        }}
+      />
 
       {showMini && (
         <div className="mini" role="status">

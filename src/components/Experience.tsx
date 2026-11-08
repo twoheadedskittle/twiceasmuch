@@ -76,6 +76,8 @@ export default function Experience() {
   // Escape or any scroll to step back.
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
+      pointer.cx = e.clientX;
+      pointer.cy = e.clientY;
       if (e.pointerType === "mouse") pointer.x = e.clientX / window.innerWidth;
     };
     const onClick = (e: MouseEvent) => {
@@ -110,7 +112,7 @@ export default function Experience() {
           <Canvas
             dpr={[1, dpr]}
             gl={{ antialias: true, powerPreference: "high-performance" }}
-            camera={{ fov: 55, near: 0.05, far: 40, position: [0, ROOM.eye, ROOM.startZ] }}
+            camera={{ fov: 55, near: 0.05, far: 1600, position: [0, ROOM.eye, ROOM.startZ] }}
             onCreated={() => requestAnimationFrame(() => setReady(true))}
             onPointerMissed={() => uiStore.get().focus && release()}
           >

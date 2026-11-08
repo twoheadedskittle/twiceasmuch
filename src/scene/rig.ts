@@ -16,7 +16,7 @@ export type Pose = {
 };
 
 export type Beat = "room" | "window" | "turn" | "hallway";
-export type Target = "shelf" | "player";
+export type Target = "shelf" | "player" | "frame";
 
 export const rig = {
   pose: { x: 0, y: 1.6, z: 4.2, yaw: 0, pitch: 0 } as Pose,
@@ -59,7 +59,7 @@ export const ROOM = {
   stride: 0.7,
 } as const;
 
-export const FOCUS_POSES: Record<Target, Pose> = {
+export const FOCUS_POSES: Record<"shelf" | "player", Pose> = {
   // Two metres back from the shelf, turned to face it: every label in view.
   shelf: { x: -0.45, y: 1.2, z: ROOM.furnitureZ, yaw: Math.PI / 2, pitch: -0.16 },
   // Standing over the record player, looking down at the platter and sleeve.
@@ -72,11 +72,13 @@ export type UiState = {
   beat: Beat;
   /** True while the shelf and record player can be chosen. */
   choosing: boolean;
-  hover: Target | null;
+  hover: "shelf" | "player" | null;
   focus: Target | null;
+  /** Hallway segment whose frame is being looked at, when focus is "frame". */
+  frame: number | null;
 };
 
-let ui: UiState = { beat: "room", choosing: false, hover: null, focus: null };
+let ui: UiState = { beat: "room", choosing: false, hover: null, focus: null, frame: null };
 const uiListeners = new Set<() => void>();
 
 export const uiStore = {
@@ -87,7 +89,8 @@ export const uiStore = {
       next.beat === ui.beat &&
       next.choosing === ui.choosing &&
       next.hover === ui.hover &&
-      next.focus === ui.focus
+      next.focus === ui.focus &&
+      next.frame === ui.frame
     )
       return;
     ui = next;

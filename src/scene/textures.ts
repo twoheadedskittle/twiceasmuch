@@ -29,176 +29,8 @@ export function voice(): string {
   return v || "system-ui, sans-serif";
 }
 
-/** A pencil line: drawn twice with a hair of offset, like a light hand. */
-function pencil(ctx: CanvasRenderingContext2D, pts: [number, number][], r: () => number) {
-  for (let pass = 0; pass < 2; pass++) {
-    ctx.beginPath();
-    pts.forEach(([x, y], i) => {
-      const jx = x + (r() - 0.5) * 1.6;
-      const jy = y + (r() - 0.5) * 1.6;
-      if (i === 0) ctx.moveTo(jx, jy);
-      else ctx.lineTo(jx, jy);
-    });
-    ctx.stroke();
-  }
-}
 
 /* ---------- Window: an original rainy garden view ---------- */
-
-export function windowView(): Texture {
-  const W = 1536;
-  const H = 1024;
-  const { c, ctx } = canvas(W, H);
-  const r = seeded(4021);
-  const ink = "rgba(38,40,42,0.85)";
-
-  // Bright wet daylight: the brightest thing in the room.
-  const sky = ctx.createLinearGradient(0, 0, 0, H);
-  sky.addColorStop(0, "#ffffff");
-  sky.addColorStop(0.5, "#fffef8");
-  sky.addColorStop(1, "#fbf6e8");
-  ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, W, H);
-  // Wash: loose watercolour bands of grey-blue cloud.
-  dabs(ctx, W, H * 0.45, r, 120, [206, 222, 228], 18, [80, 220], [0.06, 0.14], 0);
-
-  // Far terrace across the lane: pale wash, inked outline, hatched roofs.
-  let x = -30;
-  const base = H * 0.64;
-  ctx.lineCap = "round";
-  while (x < W) {
-    const w = range(r, 130, 230);
-    const roof = range(r, 60, 120);
-    const wall = range(r, 90, 150);
-    const tone = range(r, -10, 10);
-    ctx.fillStyle = `rgb(${226 + tone},${222 + tone},${212 + tone})`;
-    ctx.beginPath();
-    ctx.moveTo(x, base);
-    ctx.lineTo(x, base - wall);
-    ctx.lineTo(x + w / 2, base - wall - roof);
-    ctx.lineTo(x + w, base - wall);
-    ctx.lineTo(x + w, base);
-    ctx.closePath();
-    ctx.fill();
-    // The lit side of the gable takes the low daylight: a warm wash.
-    ctx.fillStyle = "rgba(246,214,160,0.75)";
-    ctx.fillRect(x + w / 2, base - wall, w / 2, wall);
-    // Roof hatching, slanted with the pitch.
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(x, base - wall);
-    ctx.lineTo(x + w / 2, base - wall - roof);
-    ctx.lineTo(x + w, base - wall);
-    ctx.closePath();
-    ctx.clip();
-    ctx.strokeStyle = "rgba(90,96,104,0.45)";
-    ctx.lineWidth = 1.2;
-    for (let k = -roof; k < w + roof; k += 7) {
-      ctx.beginPath();
-      ctx.moveTo(x + k, base - wall);
-      ctx.lineTo(x + k + roof * 0.6, base - wall - roof);
-      ctx.stroke();
-    }
-    ctx.restore();
-    ctx.strokeStyle = ink;
-    ctx.lineWidth = 2.2;
-    pencil(ctx, [[x, base], [x, base - wall], [x + w / 2, base - wall - roof], [x + w, base - wall], [x + w, base]], r);
-    // Windows: some lit warm, all inked.
-    for (let k = 0; k < 2; k++) {
-      const wx = x + w * (0.22 + k * 0.4);
-      const wy = base - wall * 0.62;
-      ctx.fillStyle = r() > 0.6 ? "rgba(240,196,120,0.9)" : "rgba(170,186,192,0.7)";
-      ctx.fillRect(wx, wy, 26, 34);
-      ctx.strokeStyle = ink;
-      ctx.lineWidth = 1.6;
-      ctx.strokeRect(wx, wy, 26, 34);
-    }
-    if (r() > 0.35) {
-      const cx = x + w * range(r, 0.62, 0.78);
-      const cy = base - wall - roof * 0.42;
-      ctx.fillStyle = "#d9c8b4";
-      ctx.fillRect(cx, cy - 50, 24, 50);
-      ctx.strokeStyle = ink;
-      pencil(ctx, [[cx, cy], [cx, cy - 50], [cx + 24, cy - 50], [cx + 24, cy]], r);
-    }
-    x += w + range(r, 6, 26);
-  }
-
-  // Garden wall: brick courses in ink over a terracotta wash.
-  const wallTop = H * 0.68;
-  ctx.fillStyle = "#c9876a";
-  ctx.fillRect(0, wallTop, W, H * 0.08);
-  ctx.strokeStyle = "rgba(70,40,30,0.55)";
-  ctx.lineWidth = 1.4;
-  for (let y = wallTop; y < wallTop + H * 0.08; y += 14) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(W, y);
-    ctx.stroke();
-    for (let bx = ((y / 14) % 2) * 22; bx < W; bx += 44) {
-      ctx.beginPath();
-      ctx.moveTo(bx, y);
-      ctx.lineTo(bx, y + 14);
-      ctx.stroke();
-    }
-  }
-
-  // Wet hedge in fresh greens.
-  ctx.fillStyle = "#6f9a62";
-  ctx.beginPath();
-  ctx.moveTo(0, H * 0.78);
-  for (let i = 0; i <= 48; i++) ctx.lineTo((W * i) / 48, H * 0.75 + Math.sin(i * 1.3) * 12 + r() * 16);
-  ctx.lineTo(W, H);
-  ctx.lineTo(0, H);
-  ctx.fill();
-  for (let i = 0; i < 1300; i++) {
-    const g = range(r, -24, 24);
-    ctx.fillStyle = `rgba(${86 + g},${136 + g},${80 + g * 0.5},${range(r, 0.35, 0.7)})`;
-    ctx.beginPath();
-    ctx.ellipse(r() * W, H * 0.76 + r() * H * 0.24, 7 + r() * 11, 4 + r() * 6, r() * 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Hydrangea heads: saturated blue clusters with inked florets.
-  for (let k = 0; k < 11; k++) {
-    const hx = range(r, 40, W * 0.66);
-    const hy = range(r, H * 0.66, H * 0.86);
-    const rad = range(r, 44, 72);
-    for (let i = 0; i < 260; i++) {
-      const a = r() * Math.PI * 2;
-      const d = Math.sqrt(r()) * rad;
-      ctx.fillStyle = `rgba(${52 + r() * 40},${104 + r() * 40},${214 + r() * 41},${0.8 + r() * 0.2})`;
-      ctx.beginPath();
-      ctx.arc(hx + Math.cos(a) * d, hy + Math.sin(a) * d * 0.8, 2.5 + r() * 2.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.strokeStyle = "rgba(40,50,80,0.5)";
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.ellipse(hx, hy, rad, rad * 0.8, 0, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-
-  // The tree, grown by the same L-system as the hallway plants, in ink.
-  const tree = SPECIES.find((s) => s.name === "tree")!;
-  const plant = grow(tree, 77, W * 0.8, H * 1.02, H * 1.15);
-  for (const s of plant.strokes) {
-    if (s.w > 2.5) continue;
-    for (let i = 0; i < 3; i++) {
-      const g = range(r, -20, 20);
-      ctx.fillStyle = `rgba(${96 + g},${146 + g},${88 + g * 0.5},${0.32 + r() * 0.3})`;
-      ctx.beginPath();
-      ctx.ellipse(s.x2 + range(r, -16, 16), s.y2 + range(r, -16, 16), 11 + r() * 15, 7 + r() * 9, r() * 3, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  ctx.strokeStyle = "rgba(46,38,32,0.95)";
-  ctx.fillStyle = "rgba(80,120,70,0.7)";
-  drawPlant(ctx, plant);
-
-  grain(ctx, W, H, r, 14000);
-  return tex(c);
-}
 
 export function rain(): Texture {
   const W = 256;
@@ -287,7 +119,7 @@ export function sleeve(titles: readonly string[], name: string, active: number, 
   const S = 1024;
   const { c, ctx } = canvas(S, S);
   const r = seeded(31);
-  ctx.fillStyle = "#c97b62";
+  ctx.fillStyle = "#d9ccb2";
   ctx.fillRect(0, 0, S, S);
   // A big inked ring, drawn by hand: the record seen from above.
   ctx.strokeStyle = "#1f1914";
@@ -357,11 +189,11 @@ export function grooves(name: string): Texture {
   ctx.beginPath();
   ctx.arc(S / 2, S / 2, S * 0.34, -0.5, 0.1);
   ctx.stroke();
-  ctx.fillStyle = "#c9a33f";
+  ctx.fillStyle = "#8b1a22";
   ctx.beginPath();
   ctx.arc(S / 2, S / 2, S * 0.16, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = "#1f1914";
+  ctx.fillStyle = "#ecdcc0";
   ctx.font = `600 20px ${voice()}`;
   ctx.textAlign = "center";
   ctx.fillText(name, S / 2, S / 2 - 22);
@@ -526,88 +358,6 @@ export function limewash(base = "#c99a5b"): Texture {
   return repeatTex(c);
 }
 
-/** Sage paint over wood: vertical brush strokes. */
-export function sagePaint(): Texture {
-  const S = 512;
-  const { c, ctx } = canvas(S, S);
-  const r = seeded(212);
-  ctx.fillStyle = "#8a9e86";
-  ctx.fillRect(0, 0, S, S);
-  dabs(ctx, S, S, r, 900, [138, 158, 134], 30, [20, 70], [0.07, 0.16], Math.PI / 2);
-  grain(ctx, S, S, r, 7000);
-  return repeatTex(c);
-}
-
-/** Oak boards: planks of varied tone, grain lines, inked seams. Tiles every 1 m. */
-export function floorboards(): Texture {
-  const S = 1024;
-  const { c, ctx } = canvas(S, S);
-  const r = seeded(88);
-  const planks = 6;
-  const pw = S / planks;
-  for (let i = 0; i < planks; i++) {
-    let y = -r() * 400;
-    while (y < S) {
-      const len = range(r, 380, 900);
-      const tone = range(r, -14, 14);
-      ctx.fillStyle = `rgb(${122 + tone},${79 + tone * 0.8},${46 + tone * 0.6})`;
-      ctx.fillRect(i * pw, y, pw, len);
-      ctx.strokeStyle = "rgba(60,36,20,0.28)";
-      ctx.lineWidth = 1.2;
-      for (let g = 0; g < 7; g++) {
-        const gx = i * pw + range(r, 6, pw - 6);
-        ctx.beginPath();
-        ctx.moveTo(gx, y);
-        ctx.bezierCurveTo(gx + range(r, -6, 6), y + len * 0.3, gx + range(r, -6, 6), y + len * 0.7, gx + range(r, -4, 4), y + len);
-        ctx.stroke();
-      }
-      ctx.fillStyle = "rgba(26,23,20,0.85)";
-      ctx.fillRect(i * pw, y, pw, 3);
-      y += len;
-    }
-    ctx.fillStyle = "rgba(26,23,20,0.85)";
-    ctx.fillRect(i * pw, 0, 3, S);
-  }
-  grain(ctx, S, S, r, 12000);
-  return repeatTex(c);
-}
-
-/** Oxblood runner: woven pile and a mustard border. */
-export function runner(): Texture {
-  const W = 512;
-  const H = 768;
-  const { c, ctx } = canvas(W, H);
-  const r = seeded(19);
-  ctx.fillStyle = "#7c2a24";
-  ctx.fillRect(0, 0, W, H);
-  for (let y = 0; y < H; y += 3) {
-    ctx.fillStyle = `rgba(${r() > 0.5 ? "255,220,200" : "30,8,6"},${range(r, 0.03, 0.08)})`;
-    ctx.fillRect(0, y, W, 1.5);
-  }
-  const b = 34;
-  ctx.strokeStyle = "#c9a33f";
-  ctx.lineWidth = 10;
-  ctx.strokeRect(b, b, W - b * 2, H - b * 2);
-  ctx.strokeStyle = "#c97b62";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(b + 18, b + 18, W - b * 2 - 36, H - b * 2 - 36);
-  // A row of lozenges inside the border.
-  ctx.fillStyle = "#c9a33f";
-  for (let y = b + 60; y < H - b - 40; y += 54) {
-    for (const x of [b + 34, W - b - 34]) {
-      ctx.beginPath();
-      ctx.moveTo(x, y - 12);
-      ctx.lineTo(x + 9, y);
-      ctx.lineTo(x, y + 12);
-      ctx.lineTo(x - 9, y);
-      ctx.closePath();
-      ctx.fill();
-    }
-  }
-  grain(ctx, W, H, r, 8000);
-  return tex(c);
-}
-
 /**
  * Bookcloth spine, drawn white so each instance's colour tints it:
  * cloth weave, gilt bands near head and foot, a blind-stamped title block.
@@ -643,5 +393,67 @@ export function glow(): Texture {
   g.addColorStop(1, "rgba(255,255,255,0)");
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, S, S);
+  return tex(c);
+}
+
+/**
+ * Zigzag floor: black and cream chevron bands, worn and slightly uneven.
+ * Tiles seamlessly; one repeat covers 1.6 m.
+ */
+export function zigzagFloor(): Texture {
+  const S = 1024;
+  const { c, ctx } = canvas(S, S);
+  const r = seeded(1990);
+  const bands = 8;
+  const h = S / bands;
+  const period = S / 4;
+  const amp = h * 0.62;
+  const zig = (x: number) => {
+    const t = (((x % period) + period) % period) / period;
+    return (t < 0.5 ? t * 2 : 2 - t * 2) * amp;
+  };
+  for (let k = -1; k <= bands; k++) {
+    ctx.fillStyle = k % 2 === 0 ? "#e3d3a6" : "#141112";
+    ctx.beginPath();
+    for (let x = 0; x <= S; x += 4) ctx.lineTo(x, k * h + zig(x));
+    for (let x = S; x >= 0; x -= 4) ctx.lineTo(x, (k + 1) * h + zig(x));
+    ctx.closePath();
+    ctx.fill();
+  }
+  // Wear: polish, scuffs and the grain of old paint on boards.
+  for (let i = 0; i < 26000; i++) {
+    ctx.fillStyle = r() > 0.5 ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.07)";
+    ctx.fillRect(r() * S, r() * S, 1.5 + r() * 2, 1.5);
+  }
+  ctx.strokeStyle = "rgba(0,0,0,0.12)";
+  for (let i = 0; i < 120; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    ctx.lineWidth = 0.6 + r();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + range(r, -30, 30), y + range(r, -6, 6), x + range(r, -60, 60), y + range(r, -10, 10));
+    ctx.stroke();
+  }
+  return repeatTex(c);
+}
+
+/** A soft cumulus puff on transparent ground, for cloud sprites. */
+export function cloudPuff(seed: number): Texture {
+  const S = 256;
+  const { c, ctx } = canvas(S, S);
+  const r = seeded(seed + 7);
+  for (let i = 0; i < 46; i++) {
+    const x = S * 0.5 + range(r, -0.3, 0.3) * S;
+    const y = S * 0.55 + range(r, -0.14, 0.12) * S - (1 - Math.abs(x / S - 0.5) * 2) * S * 0.08;
+    const rad = range(r, 0.08, 0.2) * S;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, rad);
+    g.addColorStop(0, "rgba(255,255,255,0.55)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, rad, 0, Math.PI * 2);
+    ctx.fill();
+  }
   return tex(c);
 }

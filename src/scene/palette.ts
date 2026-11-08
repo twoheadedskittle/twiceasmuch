@@ -1,23 +1,23 @@
 /**
- * Scene colours, taken from /references/palette and /references/relief.
- * Room: sage panelling, ochre limewash, oxblood and mustard bookcloth,
- * green-black trim, brass. Hallway: cold blue-grey plaster.
+ * Scene colours. A restrained set: crimson walls, black and cream (the
+ * zigzag floor's two colours carried into the furniture), dark walnut,
+ * brass. The only other hue in the room is the green of living plants.
+ * Hallway: cold blue-grey plaster under failing lamps.
  */
 export const C = {
-  sage: "#8a9e86",
-  sageDeep: "#5f7461",
-  limewash: "#c99a5b",
-  limewashLight: "#ddb67c",
-  oak: "#7a4f2e",
-  oakDark: "#4e3220",
-  greenBlack: "#1d2a24",
-  oxblood: "#7c2a24",
-  salmon: "#c97b62",
-  mustard: "#c9a33f",
+  crimson: "#8b1a22",
+  crimsonDeep: "#5c0f16",
+  crimsonCeiling: "#4a1d22",
+  walnut: "#5a3524",
+  walnutDark: "#38211a",
+  lacquer: "#151011",
+  cream: "#d9ccb2",
   brass: "#b38a43",
+  oxblood: "#7c2a24",
   frame: "#ece4d3",
   ink: "#1a1714",
-  sky: "#dfe8e6",
+  leaf: "#4f6b45",
+  leafDeep: "#3a5236",
   hallPlaster: "#6d767a",
   /** Cream relief paper; the cold grade and the lamps make it blue-grey. */
   hallPaper: "#8e897d",
