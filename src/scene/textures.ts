@@ -54,13 +54,13 @@ export function windowView(): Texture {
 
   // Bright wet daylight: the brightest thing in the room.
   const sky = ctx.createLinearGradient(0, 0, 0, H);
-  sky.addColorStop(0, "#f4f7f4");
-  sky.addColorStop(0.5, "#fbfbf6");
-  sky.addColorStop(1, "#f6f3e8");
+  sky.addColorStop(0, "#ffffff");
+  sky.addColorStop(0.5, "#fffef8");
+  sky.addColorStop(1, "#fbf6e8");
   ctx.fillStyle = sky;
   ctx.fillRect(0, 0, W, H);
   // Wash: loose watercolour bands of grey-blue cloud.
-  dabs(ctx, W, H * 0.45, r, 160, [196, 212, 218], 18, [80, 220], [0.08, 0.2], 0);
+  dabs(ctx, W, H * 0.45, r, 120, [206, 222, 228], 18, [80, 220], [0.06, 0.14], 0);
 
   // Far terrace across the lane: pale wash, inked outline, hatched roofs.
   let x = -30;
@@ -80,6 +80,9 @@ export function windowView(): Texture {
     ctx.lineTo(x + w, base);
     ctx.closePath();
     ctx.fill();
+    // The lit side of the gable takes the low daylight: a warm wash.
+    ctx.fillStyle = "rgba(246,214,160,0.75)";
+    ctx.fillRect(x + w / 2, base - wall, w / 2, wall);
     // Roof hatching, slanted with the pitch.
     ctx.save();
     ctx.beginPath();
@@ -157,14 +160,14 @@ export function windowView(): Texture {
   }
 
   // Hydrangea heads: saturated blue clusters with inked florets.
-  for (let k = 0; k < 9; k++) {
-    const hx = range(r, 40, W * 0.6);
-    const hy = range(r, H * 0.8, H * 0.96);
-    const rad = range(r, 30, 52);
-    for (let i = 0; i < 170; i++) {
+  for (let k = 0; k < 11; k++) {
+    const hx = range(r, 40, W * 0.66);
+    const hy = range(r, H * 0.66, H * 0.86);
+    const rad = range(r, 44, 72);
+    for (let i = 0; i < 260; i++) {
       const a = r() * Math.PI * 2;
       const d = Math.sqrt(r()) * rad;
-      ctx.fillStyle = `rgba(${86 + r() * 40},${128 + r() * 34},${200 + r() * 40},${0.7 + r() * 0.3})`;
+      ctx.fillStyle = `rgba(${52 + r() * 40},${104 + r() * 40},${214 + r() * 41},${0.8 + r() * 0.2})`;
       ctx.beginPath();
       ctx.arc(hx + Math.cos(a) * d, hy + Math.sin(a) * d * 0.8, 2.5 + r() * 2.5, 0, Math.PI * 2);
       ctx.fill();
@@ -224,17 +227,35 @@ export function lightSpill(cols: number, rows: number): Texture {
   const W = 512;
   const H = 512;
   const { c, ctx } = canvas(W, H);
-  ctx.filter = "blur(10px)";
   const pad = 30;
   const gw = (W - pad * 2) / cols;
   const gh = (H - pad * 2) / rows;
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      // Panes nearer the window (top of texture) are brighter.
-      ctx.fillStyle = `rgba(255,246,228,${0.95 - j * 0.22})`;
-      ctx.fillRect(pad + i * gw + 6, pad + j * gh + 6, gw - 12, gh - 12);
+      const x = pad + i * gw + 7;
+      const y = pad + j * gh + 7;
+      // Outer band, then a brighter core: flat cel steps like the painted references.
+      ctx.fillStyle = `rgba(255,246,228,${0.55 - j * 0.12})`;
+      ctx.fillRect(x, y, gw - 14, gh - 14);
+      ctx.fillStyle = `rgba(255,246,228,${0.95 - j * 0.2})`;
+      ctx.fillRect(x + 12, y + 12, gw - 38, gh - 38);
     }
   }
+  return tex(c);
+}
+
+/** A hard-edged pool of lamp light: two flat steps, the cel version of a falloff. */
+export function pool(): Texture {
+  const S = 256;
+  const { c, ctx } = canvas(S, S);
+  ctx.fillStyle = "rgba(255,255,255,0.45)";
+  ctx.beginPath();
+  ctx.ellipse(S / 2, S / 2, S * 0.48, S * 0.48, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,1)";
+  ctx.beginPath();
+  ctx.ellipse(S / 2, S / 2, S * 0.3, S * 0.3, 0, 0, Math.PI * 2);
+  ctx.fill();
   return tex(c);
 }
 

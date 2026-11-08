@@ -182,7 +182,7 @@ export function RecordPlayer() {
     spin.current = MathUtils.damp(spin.current, target, state.playing ? 2.2 : 0.9, dt);
     if (platter.current) platter.current.rotation.y -= spin.current * dt;
     // Tonearm swings onto the lead-in groove when playing.
-    if (arm.current) arm.current.rotation.y = MathUtils.damp(arm.current.rotation.y, state.playing ? 0.42 : 0, 5, dt);
+    if (arm.current) arm.current.rotation.y = MathUtils.damp(arm.current.rotation.y, state.playing ? -0.42 : 0, 5, dt);
   });
 
   const onDeck = (e: ThreeEvent<MouseEvent>) => {

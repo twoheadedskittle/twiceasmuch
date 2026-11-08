@@ -19,7 +19,7 @@ OWN-WORLD: Inked toon interior. Sage-painted panelling, ochre limewash plaster, 
 
 STORY: The visitor understands this is someone's reading room, believes the work is kept here with care, and either takes a book or a record, or keeps going and finds the archive hallway.
 
-FIRST VIEWPORT: Standing at the doorway end of the room, eye height, the bright window centred and small on the far wall, shelf and record player as silhouettes either side. Brand name top-left as set text, "Index" top-right, a diegetic step counter bottom-right ("12 steps to the window"). No headline.
+FIRST VIEWPORT: Standing at the doorway end of the room, eye height, the bright window centred and small on the far wall, shelf and record player as silhouettes either side. Brand name top-left as set text; the plain-links index top-right, written out as the section names themselves rather than an "Index" toggle (PRODUCT.md principle 2: nothing is gated by the scene, so the links are always one click away); a diegetic step counter bottom-right ("9 steps to the window" in the 8 m room). No headline.
 
 FORM: Brief-pinned first-person room; ranked first on the owner's own list. seed: none (roll skipped: the owner's brief pins the direction, which outranks the roll)
 

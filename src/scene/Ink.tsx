@@ -70,10 +70,10 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, const in float depth,
   float wobble = sin(px.y * 0.07) * 1.2;
   float h1 = step(0.82, fract((px.x + px.y + wobble) / 6.0));
   float h2 = step(0.82, fract((px.x - px.y + wobble) / 6.0));
-  float hatch = h1 * (1.0 - smoothstep(0.08, 0.15, L)) + h2 * (1.0 - smoothstep(0.03, 0.08, L));
+  float hatch = h1 * (1.0 - smoothstep(0.17, 0.24, L)) + h2 * (1.0 - smoothstep(0.08, 0.13, L));
   hatch *= 1.0 - step(30.0, d0); // not on the sky / far fog
 
-  col = mix(col, uInk, clamp(hatch * 0.4, 0.0, 0.4));
+  col = mix(col, uInk, clamp(hatch * 0.5, 0.0, 0.5));
   col = mix(col, uInk, edge * 0.88);
 
   // ---- Grade ----
@@ -123,7 +123,7 @@ export function Ink() {
   return (
     <EffectComposer enableNormalPass multisampling={0}>
       {/* Only the window, the bulbs and the lamp shades are bright enough to bloom. */}
-      <Bloom intensity={0.55} luminanceThreshold={0.86} luminanceSmoothing={0.12} mipmapBlur />
+      <Bloom intensity={0.55} luminanceThreshold={0.9} luminanceSmoothing={0.12} mipmapBlur />
       <InkPass />
     </EffectComposer>
   );

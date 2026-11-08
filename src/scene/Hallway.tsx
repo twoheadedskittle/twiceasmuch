@@ -22,10 +22,12 @@ import { C } from "./palette";
 import { Box } from "./parts";
 import { seeded } from "./random";
 import { rig, ROOM } from "./rig";
-import { checker, glow, placeholderArt, relief } from "./textures";
+import { checker, glow, placeholderArt, pool as poolTexture, relief } from "./textures";
 
 let glowCache: Texture | null = null;
 const glowTex = () => (glowCache ??= glow());
+let poolCache: Texture | null = null;
+const poolTex = () => (poolCache ??= poolTexture());
 import { toonRamp } from "./toon";
 
 /**
@@ -174,7 +176,7 @@ function Segment({ slot, floorMat }: SlotProps) {
       if (s) (s.material as MeshBasicMaterial).color.setScalar(0.25 + level * 0.75);
     }
     if (halo.current) halo.current.opacity = 0.4 * level;
-    if (pool.current) pool.current.opacity = 0.35 * level;
+    if (pool.current) pool.current.opacity = 0.3 * level;
   });
 
   return (
@@ -225,7 +227,7 @@ function Segment({ slot, floorMat }: SlotProps) {
       {/* The pool of light under the lamp; between pools the floor falls dark */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, L / 2]}>
         <planeGeometry args={[2.6, 2.6]} />
-        <meshBasicMaterial ref={pool} map={glowTex()} color="#bcc8d0" transparent opacity={0.35} blending={AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial ref={pool} map={poolTex()} color="#bcc8d0" transparent opacity={0.3} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
 
       {/* Hanging frame with artwork */}
@@ -272,14 +274,14 @@ function LampLights() {
       const light = ref.current;
       if (!light) return;
       const k = Math.max(0, here + i);
-      light.position.set(0, HH - 0.45, HALL.start + k * L + L / 2);
-      light.intensity = 3.4 * flicker(k, clock.elapsedTime);
+      light.position.set(0, HH - 0.6, HALL.start + k * L + L / 2);
+      light.intensity = 5.5 * flicker(k, clock.elapsedTime);
     });
   });
   return (
     <>
       {refs.map((r, i) => (
-        <pointLight key={i} ref={r} color="#cdd9e3" distance={7} decay={1.7} intensity={0} />
+        <pointLight key={i} ref={r} color="#cdd9e3" distance={3.6} decay={2} intensity={0} />
       ))}
     </>
   );

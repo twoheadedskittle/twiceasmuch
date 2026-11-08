@@ -141,7 +141,7 @@ function WindowWall() {
       {/* Daylight spilling onto the floor, panes and bars */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.013, z + 1.8]}>
         <planeGeometry args={[ww * 1.15, 3.2]} />
-        <meshBasicMaterial map={spill} transparent opacity={0.3} blending={AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial map={spill} transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
 
       <SillObjects y={sill + 0.01} z={z + 0.15} />
@@ -382,20 +382,20 @@ function RoomLights() {
         intensity={34}
         color="#f4f7f3"
       />
-      <pointLight ref={lamp} position={[0, H - 0.85, 1.4]} intensity={3.2} distance={7} decay={2} color="#ffc98a" />
+      <pointLight ref={lamp} position={[0, H - 0.6, 1.4]} intensity={3.2} distance={7} decay={2} color="#ffc98a" />
       {/* Pendant: cord, small mustard cloth shade, bulb, soft halo */}
       <group position={[0, H, 1.4]}>
-        <Box size={[0.012, 0.55, 0.012]} position={[0, -0.27, 0]} color={C.ink} />
-        <mesh position={[0, -0.64, 0]}>
-          <cylinderGeometry args={[0.07, 0.17, 0.18, 24, 1, true]} />
+        <Box size={[0.012, 0.3, 0.012]} position={[0, -0.15, 0]} color={C.ink} />
+        <mesh position={[0, -0.38, 0]}>
+          <cylinderGeometry args={[0.06, 0.13, 0.15, 24, 1, true]} />
           <Toon color={C.mustard} side={DoubleSide} />
         </mesh>
-        <mesh position={[0, -0.7, 0]}>
-          <sphereGeometry args={[0.045, 12, 8]} />
-          <meshBasicMaterial color="#fff1d0" toneMapped={false} />
+        <mesh position={[0, -0.43, 0]}>
+          <sphereGeometry args={[0.035, 12, 8]} />
+          <meshBasicMaterial color="#c9a473" toneMapped={false} />
         </mesh>
-        <sprite position={[0, -0.74, 0]} scale={[0.7, 0.7, 1]}>
-          <spriteMaterial map={halo} color="#ffcf8f" transparent opacity={0.35} blending={AdditiveBlending} depthWrite={false} />
+        <sprite position={[0, -0.46, 0]} scale={[0.5, 0.5, 1]}>
+          <spriteMaterial map={halo} color="#ffcf8f" transparent opacity={0.16} blending={AdditiveBlending} depthWrite={false} />
         </sprite>
       </group>
     </>

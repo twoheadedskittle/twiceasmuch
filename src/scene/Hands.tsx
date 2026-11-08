@@ -92,11 +92,11 @@ export function Hands() {
     const sway = (o: number) => Math.sin(p + o) * 0.01 * s;
 
     if (left.current) {
-      left.current.position.set(-hx + sway(Math.PI), hy + bob(Math.PI) + idle - lower.current * 0.09, -d);
+      left.current.position.set(-hx + sway(Math.PI), hy + bob(Math.PI) + idle - lower.current * 0.3, -d);
       left.current.rotation.set(0.12 + s * 0.04 * Math.sin(p + Math.PI), 0.25, 0.1);
     }
     if (right.current) {
-      right.current.position.set(hx + sway(0), hy + bob(0) + idle * 0.8 - lower.current * 0.09, -d);
+      right.current.position.set(hx + sway(0), hy + bob(0) + idle * 0.8 - lower.current * 0.3, -d);
       right.current.rotation.set(0.12 + s * 0.04 * Math.sin(p), -0.25, -0.1);
     }
   });
