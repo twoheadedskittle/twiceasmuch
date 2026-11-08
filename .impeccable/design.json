@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-08T17:26:49.966Z",
+  "title": "Design System: twice as much",
+  "extensions": {
+    "colorMeta": {
+      "ochre": {
+        "role": "primary",
+        "displayName": "Lamplight Ochre",
+        "canonical": "#d9a85c",
+        "oklch": "oklch(76.1% 0.110 76.8)",
+        "tonalRamp": [
+          "#190600",
+          "#391e00",
+          "#5c3a00",
+          "#825800",
+          "#a57932",
+          "#c59e63",
+          "#e5c391",
+          "#ffeac0"
+        ]
+      },
+      "oxblood": {
+        "role": "secondary",
+        "displayName": "Bookcloth Oxblood",
+        "canonical": "#7c2a24",
+        "oklch": "oklch(40.6% 0.115 27.5)",
+        "tonalRamp": [
+          "#200000",
+          "#44110e",
+          "#6b2b25",
+          "#95463e",
+          "#ba675e",
+          "#da8e85",
+          "#f9b6ad",
+          "#ffdfd7"
+        ]
+      },
+      "sage": {
+        "role": "tertiary",
+        "displayName": "Panelling Sage",
+        "canonical": "#8a9e86",
+        "oklch": "oklch(67.7% 0.041 140.4)",
+        "tonalRamp": [
+          "#060e05",
+          "#1e291b",
+          "#384736",
+          "#566752",
+          "#768873",
+          "#9aab97",
+          "#c0cebd",
+          "#e6f3e4"
+        ]
+      },
+      "sage-deep": {
+        "role": "tertiary",
+        "displayName": "Deep Sage",
+        "canonical": "#5f7461",
+        "oklch": "oklch(53.6% 0.038 147.6)",
+        "tonalRamp": [
+          "#050e06",
+          "#1c291e",
+          "#374739",
+          "#546756",
+          "#748976",
+          "#99ab9a",
+          "#becec0",
+          "#e5f3e6"
+        ]
+      },
+      "limewash-plaster": {
+        "role": "tertiary",
+        "displayName": "Ochre Limewash Plaster",
+        "canonical": "#c99a5b",
+        "oklch": "oklch(71.7% 0.098 73.3)",
+        "tonalRamp": [
+          "#180600",
+          "#381e00",
+          "#5b3a01",
+          "#80581a",
+          "#a4793f",
+          "#c49e6c",
+          "#e4c399",
+          "#ffeac6"
+        ]
+      },
+      "oak": {
+        "role": "tertiary",
+        "displayName": "Oiled Oak",
+        "canonical": "#7a4f2e",
+        "oklch": "oklch(46.8% 0.075 57.1)",
+        "tonalRamp": [
+          "#180600",
+          "#381e09",
+          "#5a3920",
+          "#805738",
+          "#a37858",
+          "#c39c80",
+          "#e4c1a9",
+          "#ffe8d4"
+        ]
+      },
+      "bookcloth-salmon": {
+        "role": "tertiary",
+        "displayName": "Salmon Bookcloth",
+        "canonical": "#c97b62",
+        "oklch": "oklch(66.0% 0.104 38.5)",
+        "tonalRamp": [
+          "#1e0100",
+          "#411507",
+          "#67301e",
+          "#904c36",
+          "#b46d56",
+          "#d4937e",
+          "#f3baa7",
+          "#ffe2d2"
+        ]
+      },
+      "mustard": {
+        "role": "tertiary",
+        "displayName": "Mustard Bookcloth",
+        "canonical": "#c9a33f",
+        "oklch": "oklch(73.2% 0.124 87.8)",
+        "tonalRamp": [
+          "#170700",
+          "#362000",
+          "#583d00",
+          "#7d5c00",
+          "#a07d19",
+          "#c0a156",
+          "#e1c688",
+          "#ffedb9"
+        ]
+      },
+      "brass": {
+        "role": "tertiary",
+        "displayName": "Brass",
+        "canonical": "#b38a43",
+        "oklch": "oklch(65.8% 0.102 79.1)",
+        "tonalRamp": [
+          "#170700",
+          "#372000",
+          "#593c00",
+          "#7e5a11",
+          "#a17b3a",
+          "#c19f68",
+          "#e2c596",
+          "#ffebc4"
+        ]
+      },
+      "green-black": {
+        "role": "neutral",
+        "displayName": "Green-Black Trim",
+        "canonical": "#1d2a24",
+        "oklch": "oklch(27.1% 0.021 164.8)",
+        "tonalRamp": [
+          "#070d0a",
+          "#1f2723",
+          "#3a4540",
+          "#57655e",
+          "#78867f",
+          "#9ca9a2",
+          "#c1ccc7",
+          "#e8f1ec"
+        ]
+      },
+      "limewash": {
+        "role": "neutral",
+        "displayName": "Limewash Cream",
+        "canonical": "#ecdcc0",
+        "oklch": "oklch(90.0% 0.041 81.7)",
+        "tonalRamp": [
+          "#100a02",
+          "#2c2415",
+          "#4b402e",
+          "#6c5f48",
+          "#8e8068",
+          "#b0a38e",
+          "#d3c8b5",
+          "#f6eddd"
+        ]
+      },
+      "limewash-dim": {
+        "role": "neutral",
+        "displayName": "Faded Limewash",
+        "canonical": "#c9b896",
+        "oklch": "oklch(78.8% 0.050 84.5)",
+        "tonalRamp": [
+          "#110a01",
+          "#2d2411",
+          "#4c4028",
+          "#6e5f42",
+          "#908062",
+          "#b1a389",
+          "#d4c8b0",
+          "#f7edda"
+        ]
+      },
+      "ink-line": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1a1714",
+        "oklch": "oklch(20.7% 0.008 67.4)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#272522",
+          "#44413f",
+          "#64605d",
+          "#85827e",
+          "#a8a4a1",
+          "#cbc8c6",
+          "#f0eeeb"
+        ]
+      },
+      "print-ink": {
+        "role": "neutral",
+        "displayName": "Print Ink",
+        "canonical": "#1f1914",
+        "oklch": "oklch(21.9% 0.013 61.8)",
+        "tonalRamp": [
+          "#0e0a08",
+          "#282421",
+          "#46413c",
+          "#67605a",
+          "#88817b",
+          "#aaa49e",
+          "#cec8c3",
+          "#f2ede9"
+        ]
+      },
+      "plaque-paper": {
+        "role": "neutral",
+        "displayName": "Plaque Paper",
+        "canonical": "#e6d6b6",
+        "oklch": "oklch(88.1% 0.046 84.6)",
+        "tonalRamp": [
+          "#100a01",
+          "#2c2413",
+          "#4b412b",
+          "#6d6045",
+          "#8e8165",
+          "#b0a48b",
+          "#d3c8b2",
+          "#f7eedb"
+        ]
+      },
+      "plaque-paper-lit": {
+        "role": "neutral",
+        "displayName": "Lit Plaque Paper",
+        "canonical": "#f4e7c8",
+        "oklch": "oklch(93.0% 0.043 88.0)",
+        "tonalRamp": [
+          "#0f0a02",
+          "#2b2414",
+          "#4a412c",
+          "#6b6047",
+          "#8c8167",
+          "#aea48d",
+          "#d1c8b4",
+          "#f5eedd"
+        ]
+      },
+      "hall-plaster": {
+        "role": "neutral",
+        "displayName": "Hallway Plaster",
+        "canonical": "#6d767a",
+        "oklch": "oklch(56.0% 0.013 226.1)",
+        "tonalRamp": [
+          "#080c0d",
+          "#212628",
+          "#3d4346",
+          "#5b6366",
+          "#7b8488",
+          "#9fa6aa",
+          "#c4cacd",
+          "#eaeff2"
+        ]
+      },
+      "hall-paper": {
+        "role": "neutral",
+        "displayName": "Relief Paper",
+        "canonical": "#8e897d",
+        "oklch": "oklch(63.1% 0.019 88.0)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#28251e",
+          "#454239",
+          "#656156",
+          "#878277",
+          "#a9a59b",
+          "#ccc9c0",
+          "#f1eee7"
+        ]
+      },
+      "hall-fog": {
+        "role": "neutral",
+        "displayName": "Hallway Fog",
+        "canonical": "#1b2024",
+        "oklch": "oklch(24.0% 0.011 242.2)",
+        "tonalRamp": [
+          "#090b0d",
+          "#222628",
+          "#3e4346",
+          "#5c6267",
+          "#7d8388",
+          "#a0a6aa",
+          "#c5cace",
+          "#ebeff2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Section-page headings only; condensed (wdth 85). The landing has no headline."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The brand name in the masthead (wdth 90)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Base text; section blurb at 1.125rem in faded limewash, 68ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Set-text controls over the scene: choices 1.0625rem, Play 650, tracks 500, nav 0.9375rem."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Diegetic step counter and now-playing line, tabular figures."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ink-halo",
+        "value": "text-shadow: 0 1px 2px rgb(18 24 21 / 0.9), 0 0 18px rgb(18 24 21 / 0.85), 0 0 4px rgb(18 24 21 / 0.9)",
+        "purpose": "Every set-text control; legibility without a box."
+      },
+      {
+        "name": "ink-halo-soft",
+        "value": "text-shadow: 0 1px 12px rgb(18 24 21 / 0.9), 0 0 2px rgb(18 24 21 / 0.8)",
+        "purpose": "Step counter; the now-playing line uses its first layer."
+      },
+      {
+        "name": "icon-halo",
+        "value": "filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9))",
+        "purpose": "Control icons."
+      },
+      {
+        "name": "masthead-scrim",
+        "value": "linear-gradient(to bottom, rgb(18 24 21 / 0.62), rgb(18 24 21 / 0))",
+        "purpose": "Behind brand and index."
+      },
+      {
+        "name": "wall-falloff",
+        "value": "radial-gradient(ellipse at 20% 45%, rgb(18 24 21 / 0.55), rgb(18 24 21 / 0) 70%)",
+        "purpose": "Behind the record-player controls on bright wall."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid #d9a85c; outline-offset: 4px; border-radius: 2px",
+        "purpose": "Every focusable element."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "All DOM motion: underlines, reveals, press scale, stage fade."
+      },
+      {
+        "name": "control-state",
+        "value": "160ms",
+        "purpose": "Colour, underline and press-scale (0.97) changes on controls."
+      },
+      {
+        "name": "underline-draw",
+        "value": "220ms",
+        "purpose": "Masthead link underline growing from the left; choice reveal."
+      },
+      {
+        "name": "panel-in",
+        "value": "260ms",
+        "purpose": "Focus panel rises 8px and fades in."
+      },
+      {
+        "name": "stage-in",
+        "value": "900ms",
+        "purpose": "The scene fades up once ready; the veil lifts over 700ms after 150ms."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0ms",
+        "purpose": "All transitions and the panel animation cut under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "560px"
+      }
+    ],
+    "scene": {
+      "inkColor": "#1a1714",
+      "celRamps": {
+        "room": [
+          70,
+          150,
+          255
+        ],
+        "hallway": [
+          14,
+          105,
+          255
+        ]
+      },
+      "inkPass": "Depth and normal edge detection; line about 1.6px near to 0.9px far, fading out 10-22m; hatching only where luminance < 0.15 (crosshatch < 0.08); warm grade to cold desaturated blue-grey grade by rig.cold; grain 0.035; vignette 0.45 room to 0.9 hallway; bloom threshold 0.9 for window, bulbs and shades only."
+    }
+  },
+  "components": [
+    {
+      "name": "Masthead",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Brand top-left, section names top-right, over a soft ink scrim; underline draws in on hover, focus and current page.",
+      "html": "<header class=\"ds-masthead\"><a class=\"ds-brand\" href=\"#\">twice as much</a><nav><ul><li><a href=\"#\" aria-current=\"page\">Artwork</a></li><li><a href=\"#\">Books</a></li><li><a href=\"#\">Snail Mail</a></li></ul></nav></header>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 20px var(--gutter) 48px; background: #5f7461; background-image: linear-gradient(to bottom, rgb(18 24 21 / 0.62), rgb(18 24 21 / 0)); color: var(--limewash); font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-brand { font-weight: 650; font-size: 1.0625rem; letter-spacing: -0.01em; font-variation-settings: \"wdth\" 90; text-decoration: none; color: inherit; } .ds-masthead ul { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; } .ds-masthead nav a { display: inline-block; padding: 10px 0; font-size: 0.9375rem; color: inherit; text-decoration: none; background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 8px) / 0 1px; transition: background-size 220ms var(--ease-out); } .ds-masthead nav a:hover, .ds-masthead nav a:focus-visible, .ds-masthead nav a[aria-current=\"page\"] { background-size: 100% 1px; } .ds-masthead a:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; }"
+    },
+    {
+      "name": "Skip Link",
+      "kind": "button",
+      "refersTo": "skip-link",
+      "description": "The only filled element: 'Skip the room', hidden until keyboard focus.",
+      "html": "<a class=\"ds-skip\" href=\"#\">Skip the room</a>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-skip { display: inline-block; padding: 10px 14px; background: var(--limewash); color: var(--green-black); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 600; text-decoration: none; } .ds-skip:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; }"
+    },
+    {
+      "name": "Set-Text Choices",
+      "kind": "button",
+      "refersTo": "set-text-control",
+      "description": "Left and right choices at the screen edges where the shelf and record player stand; ochre and underlined when hot.",
+      "html": "<div class=\"ds-choices\"><button class=\"ds-choice\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 10H4M9 5l-5 5 5 5\"/></svg><span>Bookshelf</span></button><button class=\"ds-choice\" data-hot=\"true\"><span>Record player</span><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10h12M11 5l5 5-5 5\"/></svg></button></div>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-choices { display: flex; justify-content: space-between; padding: 24px var(--gutter); background: #5f7461; } .ds-choice { font-family: 'Bricolage Grotesque', system-ui, sans-serif; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--limewash); font-size: 1rem; font-weight: 560; text-shadow: 0 1px 2px rgb(18 24 21 / 0.9), 0 0 18px rgb(18 24 21 / 0.85), 0 0 4px rgb(18 24 21 / 0.9); text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 7px; cursor: pointer; transition: color 160ms ease, text-decoration-color 160ms ease, scale 160ms var(--ease-out); font-size: 1.0625rem; } .ds-choice svg { filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9)); } .ds-choice:hover, .ds-choice[data-hot=\"true\"], .ds-choice:focus-visible { color: var(--ochre); text-decoration-color: currentColor; } .ds-choice:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; } .ds-choice:active { scale: 0.97; }"
+    },
+    {
+      "name": "Focus Panel",
+      "kind": "custom",
+      "refersTo": "play-control",
+      "description": "Record-player controls as a set-text column: ochre Play/Pause, a track list with the current track in ochre, and Step back.",
+      "html": "<section class=\"ds-panel\"><button class=\"ds-ctl ds-play\" aria-pressed=\"false\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 4.5v11l9-5.5-9-5.5z\" fill=\"currentColor\" stroke=\"none\"/></svg>Play</button><ol class=\"ds-tracks\"><li><button class=\"ds-ctl\" aria-current=\"true\">Placeholder track one</button></li><li><button class=\"ds-ctl\">Placeholder track two</button></li></ol><button class=\"ds-ctl\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10 16V4M5 9l5-5 5 5\"/></svg>Step back</button></section>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-panel { display: flex; flex-direction: column; align-items: flex-start; padding: 24px var(--gutter); max-width: 360px; background: #5f7461; background-image: radial-gradient(ellipse at 20% 45%, rgb(18 24 21 / 0.55), rgb(18 24 21 / 0) 70%); } .ds-ctl { font-family: 'Bricolage Grotesque', system-ui, sans-serif; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--limewash); font-size: 1rem; font-weight: 560; text-shadow: 0 1px 2px rgb(18 24 21 / 0.9), 0 0 18px rgb(18 24 21 / 0.85), 0 0 4px rgb(18 24 21 / 0.9); text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 7px; cursor: pointer; transition: color 160ms ease, text-decoration-color 160ms ease, scale 160ms var(--ease-out); } .ds-ctl svg { filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9)); } .ds-play { color: var(--ochre); font-weight: 650; } .ds-tracks { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; } .ds-tracks .ds-ctl { min-height: 40px; padding: 8px 0; font-weight: 500; } .ds-ctl[aria-current=\"true\"] { color: var(--ochre); text-decoration-color: currentColor; } .ds-ctl:hover { text-decoration-color: currentColor; } .ds-ctl:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; } .ds-ctl:active { scale: 0.97; }"
+    },
+    {
+      "name": "Now-Playing Line",
+      "kind": "custom",
+      "refersTo": "now-playing",
+      "description": "Caption-size title with a 44px icon-only Pause, bottom-left while audio plays.",
+      "html": "<div class=\"ds-mini\" role=\"status\"><span>Placeholder track one (placeholder)</span><button aria-label=\"Pause\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 4.5v11M13 4.5v11\" stroke-width=\"2.4\"/></svg></button></div>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-mini { display: flex; align-items: center; gap: 6px; padding: 16px var(--gutter); background: #5f7461; color: var(--limewash); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 0.875rem; text-shadow: 0 1px 12px rgb(18 24 21 / 0.9); } .ds-mini button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: none; color: var(--limewash); cursor: pointer; } .ds-mini svg { filter: drop-shadow(0 0 6px rgb(18 24 21 / 0.9)); } .ds-mini button:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; } .ds-mini button:active { scale: 0.94; }"
+    },
+    {
+      "name": "Section Page",
+      "kind": "card",
+      "refersTo": "section-heading",
+      "description": "Condensed display heading, faded-limewash blurb in a 68ch measure, ochre back link.",
+      "html": "<article class=\"ds-section\"><h1>Snail Mail</h1><p>Placeholder blurb from site config.</p><a class=\"ds-back\" href=\"#\">Back to the room</a></article>",
+      "css": ":host { --green-black: #1d2a24; --limewash: #ecdcc0; --limewash-dim: #c9b896; --ochre: #d9a85c; --oxblood: #7c2a24; --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --gutter: clamp(16px, 3vw, 32px); } .ds-section { max-width: 68ch; padding: 64px var(--gutter); background: var(--green-black); color: var(--limewash); font-family: 'Bricolage Grotesque', system-ui, sans-serif; line-height: 1.5; } .ds-section h1 { margin: 0 0 20px; font-size: clamp(3rem, 9vw, 6rem); line-height: 0.95; font-weight: 700; letter-spacing: -0.035em; font-variation-settings: \"wdth\" 85; text-wrap: balance; } .ds-section p { margin: 0 0 40px; color: var(--limewash-dim); font-size: 1.125rem; } .ds-back { display: inline-block; padding: 12px 0; color: var(--ochre); text-underline-offset: 6px; text-decoration-thickness: 1px; transition: transform 160ms var(--ease-out); } .ds-back:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; } .ds-back:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Shelf Label Plaque",
+      "kind": "custom",
+      "refersTo": "shelf-label",
+      "description": "In-scene paper plaque on the shelf edge: inked border, section name in print ink; lightens and gains an ink underline when hot.",
+      "html": "<div class=\"ds-plaques\"><span class=\"ds-plaque\">Books</span><span class=\"ds-plaque\" data-hot=\"true\">Artwork</span></div>",
+      "css": ".ds-plaques { display: flex; gap: 16px; padding: 24px; background: #7a4f2e; } .ds-plaque { display: inline-block; min-width: 160px; padding: 8px 20px; background: #e6d6b6; border: 2px solid #2a2219; outline: 3px solid #e6d6b6; color: #1f1914; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 600; font-size: 1.25rem; text-align: center; } .ds-plaque[data-hot=\"true\"], .ds-plaque:hover { background: #f4e7c8; outline-color: #f4e7c8; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }"
+    },
+    {
+      "name": "Record Sleeve",
+      "kind": "custom",
+      "refersTo": "record-sleeve",
+      "description": "In-scene salmon bookcloth sleeve: hand-inked ring, brand name, Side A, a ruled track list with the current track on an ink band.",
+      "html": "<div class=\"ds-sleeve\"><i class=\"ds-ring\"></i><b>twice as much</b><small>Side A</small><ol><li class=\"on\">Placeholder track one <span>|||</span></li><li>Placeholder track two</li></ol></div>",
+      "css": ".ds-sleeve { position: relative; overflow: hidden; width: 280px; aspect-ratio: 1; padding: 36px 18px 18px; box-sizing: border-box; background: #c97b62; color: #1f1914; font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-ring { position: absolute; right: -52px; top: -52px; width: 104px; height: 104px; border: 2px solid #1f1914; border-radius: 50%; } .ds-sleeve b { display: block; font-size: 1.5rem; font-weight: 700; } .ds-sleeve small { display: block; font-size: 0.7rem; font-weight: 500; margin-bottom: 40px; } .ds-sleeve ol { margin: 0; padding: 0 0 0 1.4em; font-size: 0.8rem; font-weight: 500; } .ds-sleeve li { padding: 6px 4px; border-bottom: 1px solid rgba(31,25,20,0.35); } .ds-sleeve li.on { font-weight: 700; background: rgba(31,25,20,0.14); } .ds-sleeve li span { float: right; letter-spacing: -1px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Inked Reading Room",
+    "overview": "The site is a place, rendered as an illustration: a small reading room drawn in toon shading, with sage panelling, ochre limewash plaster, oak boards, oxblood bookcloth, brass hardware and a green-black door frame. One screen pass inks the whole scene. A soft dark line follows every silhouette and seam, diagonal hatching sits only in the darkest cel band, and a grade runs warm in the room and cold, desaturated blue-grey in the archive hallway behind the reader. Light falls in three flat cel bands (the room) or three bands whose shadow drops nearly to black (the hallway). Paper grain and a vignette lie over everything.\n\nThe DOM is set text laid over that illustration: a few lines of Bricolage Grotesque in limewash cream, held legible by a soft ink shadow behind the letters rather than by boxes. Density is very low. There are no cards, panels, glass or chrome. Every interactive word sits where its object stands in the room: the shelf choice on the left, the record player on the right, the way back under the hand. Text that belongs to the world, such as the shelf plaques and the record sleeve, is painted into the scene in the same face and inked like the furniture.\n\nThe scene is the page, so there is one palette and no light/dark switch (`color-scheme: dark`).",
+    "keyCharacteristics": [
+      "Inked toon interior: ink line, shadow-only hatching and a warm-to-cold grade, applied as one screen pass.",
+      "Flat cel lighting in three bands; no smooth gradients on materials.",
+      "Painted, grainy canvas materials (limewash, sage paint, oak, bookcloth, relief paper), never photographic.",
+      "UI is set text in Bricolage Grotesque with an ink text-shadow; no boxes, no glass.",
+      "One accent, ochre, marks hot, current and primary states.",
+      "Diegetic copy (step counter, shelf plaques, sleeve) over generic UI copy."
+    ],
+    "rules": [
+      {
+        "name": "The One Lamp Rule",
+        "body": "Ochre is the only colour that signals state in the DOM: hot, current, primary or focused. Nothing else changes colour on interaction.",
+        "section": "colors"
+      },
+      {
+        "name": "The Room Is The Palette Rule",
+        "body": "New colours come from the room's materials (`src/scene/palette.ts`), never from a UI theme. There is no light mode.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Voice Rule",
+        "body": "Bricolage Grotesque is the only face, in the DOM and painted into the world. Do not add a display or mono face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Set Text Rule",
+        "body": "Interface words are typeset, not contained. Legibility comes from the ink text-shadow, never a box behind the word.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ink Not Glass Rule",
+        "body": "Overlays are darkened with soft ink only. No blur, no frosted panel, no bordered card.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Shadow-Band Hatch Rule",
+        "body": "Hatching marks only the darkest cel band (crosshatch in the very darkest). It never sits on lit surfaces, sky or far fog.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every interface word as text over the scene, with the ink halo for legibility.",
+      "Do reserve ochre for hot, current, primary and focus states.",
+      "Do keep Bricolage Grotesque as the only face, including text painted into the scene.",
+      "Do take new colours from the room's materials and let the screen pass ink, hatch and grade them.",
+      "Do place a control where its object stands in the room, with an arrow pointing toward it.",
+      "Do keep targets at least 44px tall and keep motion on the ease-out curve (cubic-bezier(0.23, 1, 0.32, 1)), cut to 0ms under reduced motion.",
+      "Do paint world text (labels, sleeves, frames) onto canvas materials in print ink, as objects in the room."
+    ],
+    "donts": [
+      "Don't put boxes, cards, glass or blur behind DOM text. The skip link is the only fill.",
+      "Don't add a light theme or a second palette. The scene is the page.",
+      "Don't hatch lit surfaces or smooth the cel bands into gradients.",
+      "Don't use oxblood or any colour other than ochre to signal interaction."
+    ]
+  }
+}
