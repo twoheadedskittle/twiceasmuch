@@ -495,8 +495,11 @@ a {
     max-width: 9ch;
     line-height: 1.15;
   }
-  .panel {
+  .panel:not(.panel-top) {
     bottom: 12px;
+  }
+  .panel-top {
+    top: 104px;
   }
   .wayfinding {
     bottom: auto;
